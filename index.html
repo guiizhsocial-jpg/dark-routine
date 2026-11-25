@@ -365,7 +365,7 @@ return `<div class=c><h2>Comida</h2><div class=row><label class="btn pri" ${ob2}
 // ===== MAPA E GPS =====
 const MX=(lo,z)=>(lo+180)/360*Math.pow(2,z),MY=(la,z)=>{const r=la*Math.PI/180;return(1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*Math.pow(2,z)};
 const TC={};
-function tile(z,x,y){const k=z+'/'+x+'/'+y;if(TC[k])return TC[k];const im=new Image(),o={im,ok:0,fail:0,cbs:[]};o.p=new Promise(r=>{im.onload=()=>{o.ok=1;o.cbs.forEach(f=>f());o.cbs=[];r()};im.onerror=()=>{o.fail=1;r()}});im.crossOrigin='anonymous';im.src='https://'+'abcd'[(x+y)%4]+'.basemaps.cartocdn.com/dark_all/'+z+'/'+x+'/'+y+'@2x.png';return TC[k]=o}
+function tile(z,x,y){const k=z+'/'+x+'/'+y;if(TC[k])return TC[k];const im=new Image(),o={im,ok:0,fail:0,cbs:[]};o.p=new Promise(r=>{im.onload=()=>{o.ok=1;o.cbs.forEach(f=>f());o.cbs=[];r()};im.onerror=()=>{o.fail=1;r()}});im.crossOrigin='anonymous';im.src='https://tiles.basemaps.cartocdn.com/dark_all/'+z+'/'+x+'/'+y+'.png';return TC[k]=o}
 const mapWait=T=>Promise.race([Promise.all(T.map(t=>t.p)),new Promise(r=>setTimeout(r,3500))]);
 const rr=(x,a,b,w,h,r)=>{x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()};
 function mapDraw(cv,rt,o){o=o||{};const w=cv.width,h=cv.height,x=cv.getContext('2d'),ts=w*.64,la=rt.map(r=>r[0]),lo=rt.map(r=>r[1]);let z=o.z||16,cx,cy;
