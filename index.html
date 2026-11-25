@@ -67,9 +67,16 @@ nav button{display:flex;flex-direction:column;align-items:center;gap:4px}
 .q{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.q button{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px}
 .pi{width:72px!important;margin:0!important;padding:8px!important}.stat span.m{display:block}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.social-avatar{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--g);font-size:30px;flex:none}
+.social-card{border:1px solid var(--bd);border-radius:16px;padding:12px;margin:8px 0;background:rgba(255,255,255,.025)}
+.social-row{display:flex;align-items:center;gap:10px}
+.social-tabs{display:flex;gap:6px;overflow:auto;margin:10px 0}
+.social-tabs button{white-space:nowrap}
 </style></head><body>
 <div class="glow g1"></div><div class="glow g2"></div>
 <main id="v"></main><nav id="nv"></nav><div id="ob"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const cl=window.claude||{use:async()=>null};
 async function dl(n,b){const d=await cl.use('downloads');if(d){await d.save({filename:n,data:b});return}const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
@@ -491,11 +498,188 @@ if(st==2&&!(ob.h>=120&&ob.h<=230&&ob.w>=30&&ob.w<=300&&ob.wg>=30&&ob.wg<=300))re
 if(st==6&&ob.cy==1&&!(ob.lm&&ob.lm<=td&&ob.cl>=21&&ob.cl<=45&&ob.pl>=2&&ob.pl<=10))return er('Informe a data, ciclo entre 21 e 45 dias e menstruação entre 2 e 10 dias.');
 if(st==STEPS.length-1){S.p=Object.assign({},ob,{done:1});if(ob.sex!='f')S.p.cy=0;if(!S.wt.length)S.wt=[{d:td,kg:ob.w}];if(S.p.cy==1&&ob.lm&&!S.cy.st.length)S.cy.st=[ob.lm];save();$('#ob').className='';$('#ob').innerHTML='';tab='hoje';render();return}
 st++;if(st==6&&ob.sex!='f')st++;obR()}
-const TB=[['hoje','home','Hoje'],['treino','dumbbell','Treino'],['mover','pin','Mover'],['comida','fork','Comida'],['evol','chart','Evolução']],T={hoje:H,treino:W,mover:M,ciclo:CY,comida:C,evol:E,perfil:F};
-function render(keep){if(!p().done){obR();return}const y=scrollY;$('#v').innerHTML=hdr()+T[tab]();$('#nv').innerHTML=TB.concat(cyOn()?[['ciclo','heart','Ciclo']]:[]).map(t=>`<button class="${t[0]==tab?'on':''}" onclick="go('${t[0]}')">${ic(t[1],22)}<span>${t[2]}</span></button>`).join('');fx();if(keep)scrollTo(0,y)}
+
+// Dark Routine Social / Supabase
+const DR_SUPABASE_URL='https://arjlvuhyarskympscujs.supabase.co';
+const DR_SUPABASE_KEY='sb_publishable_TVztsm1scVgPAQ973amtCQ_kCjNoqoM';
+let sb=null, socialPane='profile', socialCache={friends:[],requests:[],posts:[],challenges:[]}, socialAvatar='🏃';
+try{if(window.supabase?.createClient)sb=window.supabase.createClient(DR_SUPABASE_URL,DR_SUPABASE_KEY)}catch(_){}
+const currentUser=async()=>{if(!sb)return null;const {data}=await sb.auth.getSession();return data?.session?.user||null};
+const avatarSet=['🏃','🐺','🦊','🐼','🐈','🦉','🐸','🦄','🐯','🐙','🦋','🤖','👾','🥷','🧙','🦖','🐻','🐧'];
+const socialNotice=(m)=>toast(m);
+async function socialAuth(mode){
+ if(!sb)return toast('Biblioteca Supabase indisponível. Verifique sua conexão.');
+ const email=($('#socEmail')||{}).value?.trim(),pass=($('#socPass')||{}).value;
+ if(!email||!pass)return toast('Preencha e-mail e senha.');
+ let r;
+ if(mode==='signup')r=await sb.auth.signUp({email,password:pass});
+ else r=await sb.auth.signInWithPassword({email,password:pass});
+ if(r.error)return toast(r.error.message);
+ if(mode==='signup'&&!r.data.session){socialNotice('Cadastro criado. Confirme o e-mail se a confirmação estiver ativada.');return}
+ socialNotice(mode==='signup'?'Conta criada!':'Login realizado!');
+ await ensureProfile();render(1);
+}
+async function socialLogout(){if(sb)await sb.auth.signOut();socialNotice('Você saiu da conta.');render(1)}
+async function ensureProfile(){
+ const u=await currentUser();if(!u)return;
+ const {data,error}=await sb.from('profiles').select('*').eq('id',u.id).maybeSingle();
+ if(error)return;
+ if(!data){
+  const nm=(S.p.n||u.email.split('@')[0]).slice(0,32),un=('user'+u.id.slice(0,8)).toLowerCase();
+  await sb.from('profiles').upsert({id:u.id,username:un,display_name:nm,avatar:'🏃',bio:'',privacy:'friends'});
+ }
+}
+function socialAuthView(){
+ return `<div class=c><h2>Dark Routine Social</h2><p class=m>Crie sua conta para montar perfil, adicionar amigos, publicar atividades e participar de desafios.</p>
+ <label>E-mail</label><input id=socEmail type=email autocomplete=email placeholder="seu@email.com">
+ <label>Senha (mínimo 6 caracteres)</label><input id=socPass type=password autocomplete=current-password placeholder="Senha">
+ <div class=row><button class=pri onclick="socialAuth('signup')">Criar conta</button><button onclick="socialAuth('login')">Entrar</button></div>
+ <p class=m>Se o Supabase exigir confirmação de e-mail, verifique sua caixa de entrada.</p></div>
+ <div class=c><h3>O que será compartilhado?</h3><p class=m>O perfil, publicações e amizades ficam na nuvem. O histórico local de saúde e GPS não é publicado automaticamente. Você escolhe o que publicar.</p></div>`;
+}
+async function socialProfile(){
+ const u=await currentUser();if(!u)return socialAuthView();
+ const {data:p}=await sb.from('profiles').select('*').eq('id',u.id).maybeSingle();
+ const profile=p||{};
+ const avatar=profile.avatar||'🏃';socialAvatar=avatar;const disp=profile.display_name||S.p.n||'Atleta',un=profile.username||'';
+ return `<div class=c><div class=social-row><div class=social-avatar>${e(avatar)}</div><div style="flex:1"><h2>${e(disp)}</h2><p class=m>@${e(un)}</p><p class=m>${e(profile.bio||'')}</p></div></div>
+ <p class=m>Nível local ${lvl()} · ${xp()} XP · ${kmTot().toFixed(1)} km registrados neste aparelho</p>
+ <label>Nome de exibição</label><input id=socName maxlength=32 value="${e(disp)}">
+ <label>Username (sem espaços, único)</label><input id=socUser maxlength=24 value="${e(un)}">
+ <label>Bio</label><textarea id=socBio maxlength=160 rows=2>${e(profile.bio||'')}</textarea>
+ <label>Avatar</label><div class=ch>${avatarSet.map(a=>`<button class="chip ${a===avatar?'on':''}" style="font-size:26px" onclick="socialAvatar='${a}';$('#socAv').textContent='${a}'">${a}</button>`).join('')}</div><p id=socAv class=big>${e(avatar)}</p>
+ <label>Perfil</label><select id=socPrivacy><option value=private ${profile.privacy==='private'?'selected':''}>Privado (somente amigos)</option><option value=friends ${(!profile.privacy||profile.privacy==='friends')?'selected':''}>Amigos</option><option value=public ${profile.privacy==='public'?'selected':''}>Público</option></select>
+ <button class=pri onclick="socialSaveProfile(socialAvatar)">Salvar perfil</button></div>
+ <div class=c><button onclick="socialBackup()">Sincronizar backup privado deste aparelho</button><p class=m>Backup privado dos dados locais: armazenado na conta, com acesso limitado ao próprio usuário.</p></div>
+ <div class=c><button onclick=socialLogout()>Sair da conta</button></div>`;
+}
+async function socialSaveProfile(av){
+ const u=await currentUser();if(!u)return;
+ const username=($('#socUser').value||'').trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+ if(username.length<3)return toast('Username deve ter ao menos 3 caracteres.');
+ const obj={id:u.id,username,display_name:($('#socName').value||'').trim().slice(0,32),avatar:av,bio:($('#socBio').value||'').trim().slice(0,160),privacy:$('#socPrivacy').value};
+ const {error}=await sb.from('profiles').upsert(obj);
+ if(error)return toast(error.message);
+ socialNotice('Perfil salvo.');render(1);
+}
+async function socialBackup(){
+ const u=await currentUser();if(!u)return;
+ const payload=JSON.parse(JSON.stringify(S));delete payload.key;
+ const {error}=await sb.from('private_backups').upsert({user_id:u.id,payload,updated_at:new Date().toISOString()});
+ if(error)return toast(error.message);
+ toast('Backup privado sincronizado.');
+}
+async function socialSearch(){
+ const u=await currentUser();if(!u)return;
+ const q=($('#socSearch').value||'').trim().replace(/^@/,'');
+ if(!q)return toast('Digite username.');
+ const {data,error}=await sb.from('profiles').select('id,username,display_name,avatar,bio').ilike('username',q).limit(10);
+ if(error)return toast(error.message);
+ const list=(data||[]).filter(x=>x.id!==u.id);
+ $('#socResults').innerHTML=list.map(x=>`<div class=social-card><div class=social-row><div class=social-avatar>${e(x.avatar||'🏃')}</div><div style="flex:1"><b>${e(x.display_name||x.username)}</b><p class=m>@${e(x.username)}</p></div><button onclick="socialRequest('${x.id}')">Adicionar</button></div></div>`).join('')||'<p class=m>Nenhum perfil encontrado (ou username exato).</p>';
+}
+async function socialRequest(to){
+ const u=await currentUser();if(!u)return;
+ const {error}=await sb.from('friendships').insert({requester:u.id,addressee:to,status:'pending'});
+ if(error)return toast(error.message);
+ toast('Solicitação enviada.');socialPane='friends';render(1);
+}
+async function socialFriendData(){
+ const u=await currentUser();
+ const {data:incoming}=await sb.from('friendships').select('id,requester,status').eq('addressee',u.id).eq('status','pending');
+ const {data:outgoing}=await sb.from('friendships').select('id,addressee,status').eq('requester',u.id).eq('status','pending');
+ const {data:acceptedA}=await sb.from('friendships').select('requester,addressee,status').eq('requester',u.id).eq('status','accepted');
+ const {data:acceptedB}=await sb.from('friendships').select('requester,addressee,status').eq('addressee',u.id).eq('status','accepted');
+ const ids=[...(acceptedA||[]).map(x=>x.addressee),...(acceptedB||[]).map(x=>x.requester)];
+ const {data:profiles}=ids.length?await sb.from('profiles').select('id,username,display_name,avatar,bio').in('id',ids):{data:[]};
+ const reqIds=(incoming||[]).map(x=>x.requester);
+ const {data:reqProf}=reqIds.length?await sb.from('profiles').select('id,username,display_name,avatar').in('id',reqIds):{data:[]};
+ const outIds=(outgoing||[]).map(x=>x.addressee);
+ const {data:outProf}=outIds.length?await sb.from('profiles').select('id,username,display_name,avatar').in('id',outIds):{data:[]};
+ return {incoming:incoming||[],outgoing:outgoing||[],friends:profiles||[],reqProf:reqProf||[],outProf:outProf||[]};
+}
+async function socialFriendView(){
+ const d=await socialFriendData(),reqMap=Object.fromEntries(d.reqProf.map(x=>[x.id,x])),outMap=Object.fromEntries(d.outProf.map(x=>[x.id,x]));
+ return `<div class=c><h2>Encontrar amigos</h2><input id=socSearch placeholder="username (exato)"><button class=pri onclick=socialSearch()>Buscar</button><div id=socResults></div></div>
+ <div class=c><h3>Solicitações recebidas (${d.incoming.length})</h3>${d.incoming.map(x=>{let p=reqMap[x.requester]||{};return `<div class=social-card><div class=social-row><div class=social-avatar>${e(p.avatar||'🏃')}</div><div style=flex:1><b>${e(p.display_name||p.username||'Usuário')}</b><p class=m>@${e(p.username||'')}</p></div><button onclick="socialAccept('${x.id}')">Aceitar</button><button onclick="socialReject('${x.id}')">Recusar</button></div></div>`}).join('')||'<p class=m>Nenhuma solicitação.</p>'}</div>
+ <div class=c><h3>Enviadas</h3>${d.outgoing.map(x=>{let p=outMap[x.addressee]||{};return `<div class=r><span>${e(p.avatar||'🏃')} ${e(p.display_name||p.username||'Usuário')} <small class=m>@${e(p.username||'')}</small></span><span class=m>Pendente</span></div>`}).join('')||'<p class=m>Nenhuma solicitação enviada.</p>'}</div>
+ <div class=c><h3>Amigos (${d.friends.length})</h3>${d.friends.map(p=>`<div class=social-card><div class=social-row><div class=social-avatar>${e(p.avatar||'🏃')}</div><div style=flex:1><b>${e(p.display_name||p.username)}</b><p class=m>@${e(p.username||'')}</p></div><button onclick="socialRemove('${p.id}')">Remover</button></div></div>`).join('')||'<p class=m>Adicione pessoas pelo username para começar.</p>'}</div>`;
+}
+async function socialAccept(id){const {error}=await sb.from('friendships').update({status:'accepted'}).eq('id',id);if(error)return toast(error.message);toast('Amizade aceita!');render(1)}
+async function socialReject(id){const {error}=await sb.from('friendships').delete().eq('id',id);if(error)return toast(error.message);render(1)}
+async function socialRemove(id){
+ const u=await currentUser();const {error}=await sb.from('friendships').delete().or(`and(requester.eq.${u.id},addressee.eq.${id}),and(requester.eq.${id},addressee.eq.${u.id})`);
+ if(error)return toast(error.message);toast('Amigo removido.');render(1);
+}
+async function socialFeedView(){
+ const u=await currentUser();
+ const {data,error}=await sb.from('social_posts').select('id,user_id,content,activity_km,activity_minutes,created_at').order('created_at',{ascending:false}).limit(40);
+ if(error)return `<div class=c><p class=m>${e(error.message)}</p></div>`;
+ const posts=data||[],ids=[...new Set(posts.map(x=>x.user_id))],{data:profiles}=ids.length?await sb.from('profiles').select('id,username,display_name,avatar').in('id',ids):{data:[]};
+ const pm=Object.fromEntries((profiles||[]).map(x=>[x.id,x]));
+ let html=`<div class=c><h2>Feed</h2><p class=m>Compartilhe texto, conquistas ou uma atividade manual. O GPS detalhado nunca é publicado automaticamente.</p><textarea id=socPost maxlength=500 rows=3 placeholder="Seu progresso de hoje..."></textarea><div class=row><input id=socKm type=number step=.1 placeholder="km (opcional)"><input id=socMin type=number placeholder="min (opcional)"></div><button class=pri onclick=socialPost()>Publicar</button></div>`;
+ html+=posts.map(p=>{let pr=pm[p.user_id]||{};return `<div class=c><div class=social-row><div class=social-avatar>${e(pr.avatar||'🏃')}</div><div style=flex:1><b>${e(pr.display_name||pr.username||'Atleta')}</b><p class=m>@${e(pr.username||'')} · ${new Date(p.created_at).toLocaleString('pt-BR')}</p></div></div><p>${e(p.content||'')}</p>${p.activity_km?`<div class=social-card><b>${p.activity_km} km</b> · ${p.activity_minutes||0} min</div>`:''}<div class=row><button onclick="socialLike('${p.id}')">❤️ Reagir</button><button onclick="socialComments('${p.id}')">💬 Comentários</button></div><div id=comments-${p.id}></div></div>`}).join('')||'<div class=c><p class=m>Feed vazio. Seja a primeira publicação!</p></div>';
+ return html;
+}
+async function socialPost(){
+ const u=await currentUser(),content=($('#socPost').value||'').trim(),km=+$('#socKm').value||null,mins=+$('#socMin').value||null;
+ if(!content&&!km)return toast('Escreva algo ou inclua uma distância.');
+ const {error}=await sb.from('social_posts').insert({user_id:u.id,content,activity_km:km,activity_minutes:mins});
+ if(error)return toast(error.message);toast('Publicação enviada.');render(1);
+}
+async function socialLike(post){
+ const u=await currentUser();const {error}=await sb.from('post_reactions').upsert({post_id:post,user_id:u.id,reaction:'❤️'});
+ if(error)return toast(error.message);toast('Reação registrada.');
+}
+async function socialComments(id){
+ const {data,error}=await sb.from('post_comments').select('id,user_id,content,created_at').eq('post_id',id).order('created_at');
+ if(error)return toast(error.message);
+ const u=await currentUser(),ids=[...new Set((data||[]).map(x=>x.user_id))],{data:profiles}=ids.length?await sb.from('profiles').select('id,username,display_name').in('id',ids):{data:[]};
+ const m=Object.fromEntries((profiles||[]).map(x=>[x.id,x]));
+ const el=$('#comments-'+id);if(!el)return;
+ el.innerHTML=`<div class=social-card>${(data||[]).map(c=>`<p><b>${e(m[c.user_id]?.display_name||m[c.user_id]?.username||'Usuário')}</b>: ${e(c.content)}</p>`).join('')||'<p class=m>Sem comentários.</p'}<input id=cm-${id} maxlength=300 placeholder="Comentar"><button onclick="socialComment('${id}')">Enviar</button></div>`;
+}
+async function socialComment(id){const u=await currentUser(),content=($('#cm-'+id).value||'').trim();if(!content)return;const {error}=await sb.from('post_comments').insert({post_id:id,user_id:u.id,content});if(error)return toast(error.message);await socialComments(id)}
+async function socialChallengeView(){
+ const u=await currentUser();const {data,error}=await sb.from('social_challenges').select('id,creator_id,title,description,target_km,ends_at,created_at').order('created_at',{ascending:false}).limit(20);
+ if(error)return `<div class=c><p class=m>${e(error.message)}</p></div>`;
+ return `<div class=c><h2>Desafios</h2><p class=m>Crie metas compartilhadas com seus amigos. Participação é voluntária.</p><label>Nome</label><input id=chTitle maxlength=60 placeholder="Ex.: 30 km nesta semana"><label>Descrição</label><input id=chDesc maxlength=140 placeholder="Objetivo do desafio"><label>Meta em km (opcional)</label><input id=chKm type=number step=.1><label>Data final (opcional)</label><input id=chEnd type=date><button class=pri onclick=socialChallengeCreate()>Criar desafio</button></div>
+ ${(data||[]).map(c=>`<div class=c><h3>${e(c.title)}</h3><p>${e(c.description||'')}</p>${c.target_km?`<p class=big>${c.target_km} km</p>`:''}<p class=m>${c.ends_at?'Até '+e(c.ends_at):'Sem data final'}</p><button onclick="socialChallengeJoin('${c.id}')">Participar</button><button onclick="socialChallengeProgress('${c.id}')">Registrar progresso</button><button onclick="socialChallengeMembers('${c.id}')">Participantes</button><div id=chm-${c.id}></div></div>`).join('')||'<div class=c><p class=m>Sem desafios ainda.</p></div>'}`;
+}
+async function socialChallengeCreate(){
+ const u=await currentUser(),title=($('#chTitle').value||'').trim();if(!title)return toast('Informe o título.');
+ const {error}=await sb.from('social_challenges').insert({creator_id:u.id,title,description:($('#chDesc').value||'').trim(),target_km:+$('#chKm').value||null,ends_at:$('#chEnd').value||null});
+ if(error)return toast(error.message);toast('Desafio criado.');render(1);
+}
+async function socialChallengeJoin(id){const u=await currentUser();const {error}=await sb.from('challenge_members').upsert({challenge_id:id,user_id:u.id,progress_km:0});if(error)return toast(error.message);toast('Entrou no desafio!')}
+async function socialChallengeProgress(id){
+ const u=await currentUser();const {data}=await sb.from('challenge_members').select('progress_km').eq('challenge_id',id).eq('user_id',u.id).maybeSingle();
+ if(!data)return toast('Entre no desafio primeiro.');
+ const v=prompt('Quantos km totais você registrou neste desafio? (valor acumulado)',String(data.progress_km||0));if(v===null)return;if(!(+v>=0))return toast('Valor inválido.');
+ const {error}=await sb.from('challenge_members').update({progress_km:+v}).eq('challenge_id',id).eq('user_id',u.id);if(error)return toast(error.message);toast('Progresso atualizado.');
+}
+async function socialChallengeMembers(id){
+ const {data,error}=await sb.from('challenge_members').select('user_id,progress_km').eq('challenge_id',id).order('progress_km',{ascending:false});
+ if(error)return toast(error.message);const ids=(data||[]).map(x=>x.user_id),{data:profiles}=ids.length?await sb.from('profiles').select('id,username,display_name,avatar').in('id',ids):{data:[]},m=Object.fromEntries((profiles||[]).map(x=>[x.id,x]));
+ const el=$('#chm-'+id);if(el)el.innerHTML=(data||[]).map(x=>`<div class=r><span>${e(m[x.user_id]?.avatar||'🏃')} ${e(m[x.user_id]?.display_name||m[x.user_id]?.username||'Atleta')}</span><b>${(+x.progress_km).toFixed(1)} km</b></div>`).join('')||'<p class=m>Sem participantes</p>';
+}
+async function socialMain(){
+ if(!sb)return `<div class=c><h2>Social</h2><p class=m>Supabase SDK não carregou. Verifique internet e tente novamente.</p></div>`;
+ const u=await currentUser();if(!u)return socialAuthView();
+ await ensureProfile();
+ let content='';
+ if(socialPane==='profile')content=await socialProfile();
+ if(socialPane==='friends')content=await socialFriendView();
+ if(socialPane==='feed')content=await socialFeedView();
+ if(socialPane==='challenges')content=await socialChallengeView();
+ return `<div class=c><h2>Comunidade</h2><div class=social-tabs><button onclick="socialPane='profile';render()">Perfil</button><button onclick="socialPane='friends';render()">Amigos</button><button onclick="socialPane='feed';render()">Feed</button><button onclick="socialPane='challenges';render()">Desafios</button></div></div>${content}`;
+}
+
+const TB=[['hoje','home','Hoje'],['treino','dumbbell','Treino'],['mover','pin','Mover'],['comida','fork','Comida'],['evol','chart','Evolução'],['social','user','Social']],T={hoje:H,treino:W,mover:M,ciclo:CY,comida:C,evol:E,perfil:F,social:socialMain};
+async function render(keep){if(!p().done){obR();return}const y=scrollY;$('#v').innerHTML=hdr()+(tab==='social'?'':T[tab]());$('#nv').innerHTML=TB.concat(cyOn()?[['ciclo','heart','Ciclo']]:[]).map(t=>`<button class="${t[0]==tab?'on':''}" onclick="go('${t[0]}')">${ic(t[1],22)}<span>${t[2]}</span></button>`).join('');fx();if(tab==='social'){$('#v').innerHTML=hdr()+`<div class=c><p class=m>Carregando comunidade...</p></div>`+await socialMain();}if(keep)scrollTo(0,y)}
 function go(t){tab=t;render();scrollTo(0,0)}
 function fx(){G.lm=0;liveMap();requestAnimationFrame(()=>requestAnimationFrame(()=>{document.querySelectorAll('[data-o]').forEach(c=>c.style.strokeDashoffset=c.dataset.o);document.querySelectorAll('[data-w]').forEach(i=>i.style.width=i.dataset.w+'%');document.querySelectorAll('[data-h]').forEach(i=>i.style.height=i.dataset.h+'%');
 document.querySelectorAll('[data-n]').forEach(el=>{const to=+el.dataset.n,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/900);el.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}))}
 render();
-if('serviceWorker' in navigator)addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js?v=5',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});});
+if('serviceWorker' in navigator)addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js?v=6',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});});
 </script></body></html>
