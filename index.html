@@ -64,6 +64,8 @@ nav button{display:flex;flex-direction:column;align-items:center;gap:4px}
 .bd .ic{display:block;margin:0 auto 5px}
 .fire{color:#f97316}.fh{color:#ec4899}
 .dy i.hrt{color:#ec4899;line-height:0;bottom:4px}.dy.pd i.hrt,.dy.ov i.hrt{color:#fff}
+.q{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.q button{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px}
+.pi{width:72px!important;margin:0!important;padding:8px!important}.stat span.m{display:block}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
 <div class="glow g1"></div><div class="glow g2"></div>
@@ -144,7 +146,8 @@ const a=S.wk[SH.i];if(!a)return;const c=document.createElement('canvas'),W=1080,
 let g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0a0614');g.addColorStop(1,'#1a0836');x.fillStyle=g;x.fillRect(0,0,W,H);
 [[150,300,'#8b5cf6'],[950,1500,'#ec4899']].forEach(([cx,cy,col])=>{const r=x.createRadialGradient(cx,cy,0,cx,cy,650);r.addColorStop(0,col+'88');r.addColorStop(1,col+'00');x.fillStyle=r;x.fillRect(0,0,W,H)});
 x.textAlign='center';x.fillStyle='#fff';x.font='700 44px '+F;x.globalAlpha=.7;x.fillText((TY[a.ty]?TY[a.ty][0]:a.n).toUpperCase()+' · '+a.d.split('-').reverse().join('/'),W/2,200);x.globalAlpha=1;
-if(SH.rt&&a.rt&&a.rt.length>1){const P=proj(a.rt,900,640,50),lg=x.createLinearGradient(0,0,900,0);lg.addColorStop(0,'#8b5cf6');lg.addColorStop(1,'#ec4899');x.save();x.translate(90,300);x.strokeStyle=lg;x.lineWidth=14;x.lineCap='round';x.lineJoin='round';x.shadowColor='#ec4899';x.shadowBlur=40;x.beginPath();P.forEach((q,j)=>j?x.lineTo(q[0],q[1]):x.moveTo(q[0],q[1]));x.stroke();x.shadowBlur=0;x.fillStyle='#34d399';x.beginPath();x.arc(P[0][0],P[0][1],16,0,7);x.fill();x.fillStyle='#fff';x.beginPath();x.arc(P[P.length-1][0],P[P.length-1][1],16,0,7);x.fill();x.restore()}
+let used=0;if(SH.rt&&a.rt&&a.rt.length>1){const mc=document.createElement('canvas');mc.width=900;mc.height=640;const T=mapDraw(mc,a.rt,{fit:1});await mapWait(T);if(T.some(t=>t.ok)){mapDraw(mc,a.rt,{fit:1});x.save();rr(x,90,300,900,640,40);x.clip();x.drawImage(mc,90,300);x.restore();x.fillStyle='rgba(255,255,255,.55)';x.font='500 22px '+F;x.textAlign='right';x.fillText('© OpenStreetMap © CARTO',990,968);x.textAlign='center';used=1}}
+if(!used&&SH.rt&&a.rt&&a.rt.length>1){const P=proj(a.rt,900,640,50),lg=x.createLinearGradient(0,0,900,0);lg.addColorStop(0,'#8b5cf6');lg.addColorStop(1,'#ec4899');x.save();x.translate(90,300);x.strokeStyle=lg;x.lineWidth=14;x.lineCap='round';x.lineJoin='round';x.shadowColor='#ec4899';x.shadowBlur=40;x.beginPath();P.forEach((q,j)=>j?x.lineTo(q[0],q[1]):x.moveTo(q[0],q[1]));x.stroke();x.shadowBlur=0;x.fillStyle='#34d399';x.beginPath();x.arc(P[0][0],P[0][1],16,0,7);x.fill();x.fillStyle='#fff';x.beginPath();x.arc(P[P.length-1][0],P[P.length-1][1],16,0,7);x.fill();x.restore()}
 x.fillStyle='#fff';x.font='800 300px '+F;x.fillText(a.km.toFixed(2),W/2,1140);x.fillStyle='#c4b5fd';x.font='700 60px '+F;x.fillText('QUILÔMETROS',W/2,1230);
 const s=a.sec||a.m*60;[['TEMPO',fmtT(s)],[a.ty=='bike'?'KM/H':'MIN/KM',sp(a.ty,a.km,s).replace(/ .*/,'')],['KCAL',Math.round(a.k)]].forEach((t,j)=>{const cx=180+j*360;x.fillStyle='#fff';x.font='800 70px '+F;x.fillText(t[1],cx,1450);x.fillStyle='#9a9ab0';x.font='600 34px '+F;x.fillText(t[0],cx,1505)});
 x.fillStyle='#fff';x.font='800 54px '+F;x.fillText('DARK ROUTINE',W/2,1760);x.fillStyle='#9a9ab0';x.font='600 34px '+F;x.fillText(p().n,W/2,1820);
@@ -200,17 +203,223 @@ function rcv(){const g=S.gp;if(G.on||!g||g.d<100)return'';return `<div class=c><
 function gRec(){const g=S.gp;Object.assign(G,{ty:g.ty,d:g.d,el:g.el,pts:g.pts,spl:g.spl});gStop()}
 function delA(i){if(!confirm('Apagar esta atividade?'))return;const a=S.wk[i];if(a.met){const j=S.ses.lastIndexOf(a.d);if(j>=0)S.ses.splice(j,1)}S.wk.splice(i,1);save();render(1)}
 function bkp(){return `<div class=c><h3>Backup</h3><p class=m>Seus dados ficam só neste navegador e somem se você limpá-lo. Exporte de vez em quando. O arquivo inclui tudo, inclusive o ciclo, então guarde com cuidado.</p><div class=row><button onclick=bkx()>Exportar</button><label class=btn style="text-align:center;background:var(--s);color:var(--tx);border:1px solid var(--bd)">Importar<input type=file accept=".json,application/json" hidden onchange="bki(this.files[0])"></label></div></div>`}
-async function bkx(){try{await dl('dark-routine-backup.json',new Blob([JSON.stringify(S)],{type:'application/json'}));toast('Backup salvo')}catch(x){toast('Não foi possível salvar')}}
+async function bkx(){try{await dl('dark-routine-backup.json',new Blob([JSON.stringify(Object.assign({},S,{key:undefined}))],{type:'application/json'}));toast('Backup salvo')}catch(x){toast('Não foi possível salvar')}}
 function bki(f){if(!f)return;const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);if(!j||!j.p||!Array.isArray(j.wk))throw 0;if(!confirm('Substituir os dados atuais pelo backup?'))return;S=Object.assign({p:{},food:[],wk:[],wt:[],lg:[],ses:[],wa:{},cy:{st:[],en:{},hr:{},lg:{}},ms:[],fa:null},j);save();location.reload()}catch(x){toast('Arquivo inválido')}};r.readAsText(f)}
 document.addEventListener('visibilitychange',()=>{if(G.on&&!document.hidden&&navigator.wakeLock)navigator.wakeLock.request('screen').then(w=>G.wl=w).catch(()=>{})});
 setInterval(()=>{const n=ld();if(n!=td){td=n;cd=n;render(1)}},60000);
+const nz=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const FDS=`Arroz branco cozido|128|2.5|28.1|0.2|150|porção
+Arroz integral cozido|124|2.6|25.8|1|150|porção
+Feijão carioca cozido|76|4.8|13.6|0.5|100|concha
+Feijão preto cozido|77|4.5|14|0.5|100|concha
+Lentilha cozida|93|6.3|16.3|0.5|100|porção
+Grão-de-bico cozido|164|8.9|27.4|2.6|100|porção
+Macarrão cozido|158|5.8|30.9|0.9|140|porção
+Macarrão à bolonhesa|150|7|20|4.5|300|prato
+Lasanha|140|8|14|6|300|porção
+Strogonoff de frango|160|12|6|10|200|porção
+Feijoada|150|9|8|9|250|porção
+Farofa|400|2|60|17|40|porção
+Purê de batata|90|2|15|3|120|porção
+Batata inglesa cozida|52|1.2|11.9|0.1|130|unidade média
+Batata-doce cozida|77|0.6|18.4|0.1|130|unidade média
+Mandioca cozida|125|0.6|30|0.3|100|porção
+Cuscuz de milho|113|2.2|25.3|0.7|130|porção
+Tapioca (goma hidratada)|240|0|60|0|60|unidade
+Aveia em flocos|394|13.9|66.6|8.5|30|3 colheres
+Granola|471|10|64|20|40|porção
+Cereal matinal de milho|380|7|84|1|30|porção
+Pão francês|300|8|58.6|3.1|50|unidade
+Pão de forma|265|9|49|3.2|25|fatia
+Pão integral|252|12.5|43|3.5|25|fatia
+Pão de queijo|363|5.1|34.2|23.7|30|unidade
+Torrada|390|11|72|6|20|porção
+Biscoito cream cracker|432|10.1|68.7|14.4|30|5 unidades
+Biscoito recheado|472|6|70|19|30|3 unidades
+Bolo simples|360|5|52|15|60|fatia
+Bolo de chocolate com cobertura|390|5|55|17|70|fatia
+Peito de frango grelhado|159|32|0|2.5|120|filé
+Coxa de frango assada|215|26|0|12|100|unidade
+Frango frito|280|24|10|16|100|pedaço
+Nuggets de frango|296|15|18|18|100|5 unidades
+Bife de patinho grelhado|219|35.9|0|7.3|120|bife
+Alcatra grelhada|241|31.9|0|11.5|120|bife
+Picanha grelhada|290|27|0|20|100|porção
+Carne moída refogada|212|26.7|0|10.9|100|porção
+Hambúrguer de carne grelhado|250|26|0|16|100|unidade
+Linguiça de porco grelhada|300|16|2|26|80|unidade
+Bacon frito|541|37|1.4|42|20|2 fatias
+Lombo de porco assado|210|29|0|10|100|fatia
+Salsicha|270|11|3|24|50|unidade
+Presunto|94|14.4|1.1|3.5|30|2 fatias
+Peito de peru|100|18|1|2|30|2 fatias
+Ovo cozido|146|13.3|0.6|9.5|50|unidade
+Ovo frito|240|15.6|1.2|18.6|50|unidade
+Omelete|154|11|0.6|12|100|porção
+Atum em lata (ao natural)|116|25.5|0|1|80|lata
+Sardinha em lata|208|24.6|0|11.5|90|lata
+Tilápia grelhada|128|26|0|2.7|120|filé
+Salmão grelhado|208|22|0|13|120|filé
+Camarão cozido|99|24|0.2|0.3|100|porção
+Sushi (1 peça)|145|5|28|1.5|30|peça
+Leite integral|61|3.2|4.5|3.3|200|copo
+Leite desnatado|35|3.4|5|0.1|200|copo
+Iogurte natural|51|4.1|5.9|1.5|170|pote
+Iogurte grego natural|97|9|4|5|100|pote
+Whey protein (pó)|390|78|8|6|30|scoop
+Queijo mussarela|330|22.6|3|25|20|fatia
+Queijo minas frescal|264|17.4|3.2|20.2|30|fatia
+Queijo prato|360|22.7|0|29.1|20|fatia
+Requeijão cremoso|257|9|3|23|30|porção
+Cream cheese|342|6|4|34|20|porção
+Parmesão ralado|431|38|4|29|10|colher
+Leite condensado|321|7.7|54.7|8.7|20|colher
+Creme de leite|210|2|3|21|20|colher
+Sorvete de creme|207|3.5|24|11|60|bola
+Banana prata|98|1.3|26|0.1|70|unidade
+Maçã|56|0.3|15.2|0|130|unidade
+Laranja|37|1|8.9|0.1|180|unidade
+Mamão papaia|40|0.5|10.4|0.1|150|porção
+Manga|64|0.4|16.7|0.3|150|porção
+Uva|53|0.7|13.6|0.2|100|porção
+Morango|30|0.9|6.8|0.3|100|porção
+Abacaxi|48|0.9|12.3|0.1|100|fatia
+Melancia|33|0.9|8|0|200|fatia
+Abacate|96|1.2|6|8.4|100|porção
+Açaí na tigela (com guaraná)|140|1.5|25|3.5|300|tigela média
+Alface|11|1.3|1.7|0.2|30|prato
+Tomate|15|1.1|3.1|0.2|100|unidade
+Cenoura crua|34|1.3|7.7|0.2|80|unidade
+Brócolis cozido|25|2.1|4.4|0.5|80|porção
+Couve refogada|90|1.7|8.7|6.6|50|porção
+Pepino|10|0.9|2|0|100|porção
+Hambúrguer completo (lanchonete)|250|13|24|11|200|unidade
+Cheeseburger (fast food)|250|13|25|11|120|unidade
+Cachorro-quente completo|250|10|25|12|150|unidade
+Pizza de mussarela|266|11|33|10|110|fatia
+Pizza de calabresa|280|12|29|13|110|fatia
+Batata frita|312|3.4|41|15|100|porção
+Coxinha frita|285|9|28|15|100|unidade
+Pastel de carne frito|290|9|29|16|100|unidade
+Esfiha de carne|250|10|31|9|90|unidade
+Salgadinho de pacote (chips)|536|7|53|35|30|porção
+Pipoca (estourada)|387|13|78|4.5|20|saquinho
+Chocolate ao leite|540|7|59|30|25|porção
+Chocolate amargo 70%|598|7.8|46|43|25|porção
+Brigadeiro|400|4|60|15|20|unidade
+Doce de leite|306|5|55|7|20|colher
+Paçoca|487|16|52|26|20|unidade
+Goiabada|285|0.5|72|0|30|fatia
+Brownie|466|6|50|28|60|unidade
+Donut|452|5|51|25|60|unidade
+Amendoim torrado|590|25|18|51|30|punhado
+Pasta de amendoim|588|25|20|50|15|colher
+Castanha de caju|570|18|29|46|30|punhado
+Castanha-do-pará|656|14|12|67|10|2 unidades
+Amêndoas|579|21|22|50|30|punhado
+Nozes|654|15|14|65|30|punhado
+Azeite de oliva|884|0|0|100|8|colher
+Manteiga|717|0.9|0.1|81|10|porção
+Margarina|600|0.5|0.5|67|10|porção
+Mel|304|0.3|82|0|20|colher
+Açúcar|387|0|100|0|5|colher de chá
+Refrigerante de cola|42|0|10.6|0|350|lata
+Suco de laranja natural|45|0.7|10.4|0.2|250|copo
+Suco de uva integral|60|0.4|15|0.1|200|copo
+Água de coco|19|0.7|3.7|0.2|300|copo
+Café sem açúcar|2|0.1|0|0|50|xícara
+Cerveja|43|0.5|3.6|0|350|lata
+Vinho tinto|85|0.1|2.6|0|150|taça
+Energético|45|0|11|0|250|lata
+Isotônico|26|0|6|0|500|garrafa`.split('\n').filter(Boolean).map(l=>{const a=l.split('|');return{n:a[0],k:+a[1],p:+a[2],c:+a[3],g:+a[4],q:+a[5]||100,u:a[6]||'porção'}});
+const MEALS=['Café da manhã','Almoço','Lanche','Jantar'],allF=()=>FDS.concat(S.cf||[]);
+let MT=(h=>h<10?MEALS[0]:h<15?MEALS[1]:h<18?MEALS[2]:MEALS[3])(new Date().getHours()),FS=null,FG=100,FQ='',PIC='';
+const mOpt=()=>MEALS.map(m=>`<option ${m==MT?'selected':''}>${m}</option>`).join('');
+function fres(){const q=nz(FQ);if(!q)return'';const L=allF().map((f,i)=>[f,i]).filter(([f])=>nz(f.n).includes(q)).slice(0,8);return L.map(([f,i])=>`<div class=r onclick="fpick(${i})" style="cursor:pointer"><span>${e(f.n)}<br><span class=m>${f.q} g · ${Math.round(f.k*f.q/100)} kcal</span></span><span class=m>${Math.round(f.k)}/100 g</span></div>`).join('')||'<p class=m>Não achei. Crie abaixo como alimento personalizado.</p>'}
+function fpick(i){FS=allF()[i];FG=FS.q;FQ='';render(1);fcalc()}
+function fcalc(){const f=FS,g=FG||0,el=$('#fk');if(f&&el)el.textContent=Math.round(f.k*g/100)+' kcal · P '+(f.p*g/100).toFixed(1)+' · C '+(f.c*g/100).toFixed(1)+' · G '+(f.g*g/100).toFixed(1)}
+function fadd(){const f=FS,g=FG||0;if(!g)return;S.food.push({d:td,n:f.n+' '+Math.round(g)+' g',k:f.k*g/100,p:f.p*g/100,c:f.c*g/100,g:f.g*g/100,m:$('#mt').value});FS=null;save();render(1);toast('Adicionado')}
+function fcust(){const v=id=>$('#'+id).value,n=v('cn').trim(),k=+v('ck');if(!n||!(k>=0)||!v('ck'))return toast('Preencha nome e kcal');const f={n,k,p:+v('cp')||0,c:+v('cc')||0,g:+v('cg')||0,q:+v('cq')||100,u:'porção'};(S.cf=S.cf||[]).push(f);save();FS=f;FG=f.q;render(1);fcalc()}
+function rcAdd(i){const x=RC[i];S.food.push({d:td,n:x.n,k:x.k,p:x.p,c:x.c||0,g:x.g||0,m:MT});save();render(1);toast('Adicionado')}
+function pdH2(){if(!pend.length)return'';const tk=pend.reduce((a,x)=>a+x.k,0);return(PIC?`<img src="${PIC}" alt="Foto da refeição" style="width:100%;max-height:200px;object-fit:cover;border-radius:14px;margin:8px 0">`:'')+pend.map((x,i)=>`<div class=r><span>${e(x.n)}<br><span class=m id=pk${i}>${Math.round(x.k)} kcal · P ${Math.round(x.p)} · C ${Math.round(x.c)} · G ${Math.round(x.gd)}</span></span><span><input class=pi type=number value="${Math.round(x.g)}" oninput="pg(${i},this.value)"> g<a aria-label="Remover" onclick="pend.splice(${i},1);$('#pd').innerHTML=pdH2()">${ic('x',14)}</a></span></div>`).join('')+`<p class=m id=ptk>Total: ${Math.round(tk)} kcal</p><select id=pm style="width:100%;margin-bottom:8px">${mOpt()}</select><button class=pri onclick=savePend()>Salvar refeição</button>`}
+function pg(i,v){const x=pend[i],g=+v||0;x.g=g;x.k=x.b.k*g;x.p=x.b.p*g;x.c=x.b.c*g;x.gd=x.b.gd*g;const el=$('#pk'+i);if(el)el.textContent=Math.round(x.k)+' kcal · P '+Math.round(x.p)+' · C '+Math.round(x.c)+' · G '+Math.round(x.gd);const t=$('#ptk');if(t)t.textContent='Total: '+Math.round(pend.reduce((a,y)=>a+y.k,0))+' kcal'}
+function savePend(){const m=$('#pm')?$('#pm').value:MT;pend.forEach(x=>S.food.push({d:td,n:x.n+' '+Math.round(x.g)+' g',k:x.k,p:x.p,c:x.c,g:x.gd,m}));pend=[];PIC='';save();render(1);toast('Refeição salva')}
+function setPend(r){pend=((r&&r.itens)||[]).filter(x=>x&&x.n).map(x=>{const g=+x.g||100,k=+x.k||0,p=+x.p||0,c=+x.c||0,gd=+x.gd||0;return{n:String(x.n),g,k,p,c,gd,b:{k:k/g,p:p/g,c:c/g,gd:gd/g}}})}
+const PR='Você é um nutricionista brasileiro. Estime a porção em gramas (ou ml) e os valores nutricionais de cada item, considerando comida caseira, fast food, doces e bebidas. Responda SOMENTE JSON, sem texto extra: {"itens":[{"n":"nome em português","g":0,"k":0,"p":0,"c":0,"gd":0}]} onde k=kcal, p=proteína em g, c=carboidrato em g, gd=gordura em g da porção estimada. Se não houver comida, devolva {"itens":[]}.';
+async function ai(txt,bl){const pr=txt+' '+PR,sm=await cl.use('sample');
+if(sm&&(!bl||(await sm.limits()).images))return sm.json(pr,{images:bl?[bl]:undefined,cache:false});
+if(!S.key)throw'nokey';
+const c=[];if(bl)c.push({type:'image',source:{type:'base64',media_type:'image/jpeg',data:await new Promise(r=>{const f=new FileReader();f.onload=()=>r(String(f.result).split(',')[1]);f.readAsDataURL(bl)})}});c.push({type:'text',text:pr});
+const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':S.key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-5-5',max_tokens:1000,messages:[{role:'user',content:c}]})});
+if(!r.ok)throw'http'+r.status;const j=await r.json();return JSON.parse(j.content.map(x=>x.text||'').join('').replace(/```json|```/g,'').trim())}
+const aiErr=x=>x=='nokey'?'Para reconhecer comida por IA fora do Claude, coloque sua chave da API em Perfil > Foto de comida por IA. A busca de alimentos funciona sem chave.':/^http401/.test(x)?'Chave da API inválida.':/^http429/.test(x)?'Muitas chamadas agora. Tente em instantes.':'Não consegui analisar agora. Tente de novo ou use a busca.';
+async function foto(f){if(!f)return;const s=$('#st');s.textContent='Analisando a foto…';try{const bl=await shrink(f);PIC=URL.createObjectURL(bl);setPend(await ai('Identifique cada alimento e bebida visíveis na foto.',bl));s.textContent=pend.length?'Confira e ajuste os gramas de cada item antes de salvar.':'Não identifiquei comida. Tente outra foto ou descreva em texto.'}catch(x){s.textContent=aiErr(String(x))}const d=$('#pd');if(d)d.innerHTML=pdH2()}
+async function txt(){const t=($('#tx')||{}).value;if(!t||!t.trim())return;const s=$('#st');s.textContent='Calculando…';try{PIC='';setPend(await ai('O usuário comeu: "'+t.trim().replace(/"/g,"'")+'".',null));s.textContent=pend.length?'Confira e ajuste antes de salvar.':'Não entendi. Tente descrever de outro jeito.'}catch(x){s.textContent=aiErr(String(x))}const d=$('#pd');if(d)d.innerHTML=pdH2()}
+function C(){const a=eat(td),idx=S.food.map((x,i)=>[x,i]).filter(([x])=>x.d==td);
+const grp=MEALS.concat(['Outros']).map(m=>{const it=idx.filter(([x])=>(x.m||'Outros')==m);if(!it.length)return'';return `<div class=r><b>${m}</b><span class=m>${Math.round(it.reduce((s,[x])=>s+x.k,0))} kcal</span></div>`+it.map(([x,i])=>`<div class=r><span>${e(x.n)}</span><span>${Math.round(x.k)} kcal<a aria-label="Apagar" onclick="delF(${i})">${ic('x',14)}</a></span></div>`).join('')}).join('');
+const ob2='style="display:flex;gap:8px;align-items:center;justify-content:center"';
+return `<div class=c><h2>Comida</h2><div class=row><label class="btn pri" ${ob2}>${ic('camera',18)} Tirar foto<input type=file accept="image/*" capture=environment hidden onchange="foto(this.files[0]);this.value=''"></label><label class=btn style="display:flex;align-items:center;justify-content:center;background:var(--s);color:var(--tx);border:1px solid var(--bd)">Galeria<input type=file accept="image/*" hidden onchange="foto(this.files[0]);this.value=''"></label></div><p id=st class=m>A IA identifica o prato e estima porções e calorias. É uma estimativa: ajuste os gramas antes de salvar.</p><div id=pd>${pdH2()}</div><div class=row style="margin-top:8px"><input id=tx placeholder="ou descreva: 2 fatias de pizza e 1 coca" style="margin:0"><button onclick=txt()>Enviar</button></div></div>
+<div class=c><h3>Buscar alimento (${allF().length})</h3><input id=fq placeholder="Ex.: pizza, coxinha, arroz, whey..." value="${e(FQ)}" oninput="FQ=this.value;$('#fr').innerHTML=fres()"><div id=fr>${fres()}</div>${FS?`<div style="border-top:1px solid var(--bd);margin-top:8px;padding-top:10px"><b>${e(FS.n)}</b><div class=ch style="margin:8px 0">${[.5,1,1.5,2].map(m=>`<button class=chip onclick="FG=${FS.q*m};$('#fg2').value=FG;fcalc()">${m}× · ${Math.round(FS.q*m)} g</button>`).join('')}</div><input id=fg2 type=number value="${FG}" oninput="FG=+this.value;fcalc()"><p class=m id=fk></p><select id=mt style="width:100%;margin-bottom:8px">${mOpt()}</select><button class=pri onclick=fadd()>Adicionar ao dia</button></div>`:''}<p class=m>Valores médios aproximados por 100 g, no estilo das tabelas TACO e USDA. Marcas e receitas variam.</p></div>
+<div class=c><h3>Alimento personalizado</h3><input id=cn placeholder="Nome (ex.: Marmita da firma)"><div class=row><input id=ck type=number placeholder="kcal/100 g"><input id=cq type=number placeholder="porção (g)"><input id=cp type=number placeholder="proteína/100 g"><input id=cc type=number placeholder="carbo/100 g"></div><input id=cg type=number placeholder="gordura/100 g"><button onclick=fcust()>Salvar</button></div>
+<div class=c><h3>Hoje: ${Math.round(a.k)} kcal</h3>${grp||'<p class=m>Nada registrado ainda.</p>'}</div>`+rcCard()+faCard()}
+// ===== MAPA E GPS =====
+const MX=(lo,z)=>(lo+180)/360*Math.pow(2,z),MY=(la,z)=>{const r=la*Math.PI/180;return(1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*Math.pow(2,z)};
+const TC={};
+function tile(z,x,y){const k=z+'/'+x+'/'+y;if(TC[k])return TC[k];const im=new Image(),o={im,ok:0,fail:0,cbs:[]};o.p=new Promise(r=>{im.onload=()=>{o.ok=1;o.cbs.forEach(f=>f());o.cbs=[];r()};im.onerror=()=>{o.fail=1;r()}});im.crossOrigin='anonymous';im.src='https://'+'abcd'[(x+y)%4]+'.basemaps.cartocdn.com/dark_all/'+z+'/'+x+'/'+y+'@2x.png';return TC[k]=o}
+const mapWait=T=>Promise.race([Promise.all(T.map(t=>t.p)),new Promise(r=>setTimeout(r,3500))]);
+const rr=(x,a,b,w,h,r)=>{x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()};
+function mapDraw(cv,rt,o){o=o||{};const w=cv.width,h=cv.height,x=cv.getContext('2d'),ts=w*.64,la=rt.map(r=>r[0]),lo=rt.map(r=>r[1]);let z=o.z||16,cx,cy;
+if(o.fit){const a=Math.min(...la),b=Math.max(...la),c=Math.min(...lo),d=Math.max(...lo);for(z=17;z>3;z--)if((MX(d,z)-MX(c,z))*ts<w-110&&(MY(a,z)-MY(b,z))*ts<h-110)break;cx=(MX(c,z)+MX(d,z))/2;cy=(MY(a,z)+MY(b,z))/2}else{const q=rt[rt.length-1];cx=MX(q[1],z);cy=MY(q[0],z)}
+const tx0=cx-w/2/ts,ty0=cy-h/2/ts,T=[];x.fillStyle='#0d0d16';x.fillRect(0,0,w,h);
+for(let a=Math.floor(tx0);a<=Math.floor(tx0+w/ts);a++)for(let b=Math.floor(ty0);b<=Math.floor(ty0+h/ts);b++){const t=tile(z,a,b);T.push(t);if(t.ok)x.drawImage(t.im,(a-tx0)*ts,(b-ty0)*ts,ts+1,ts+1);else if(!t.fail&&o.redraw)t.cbs.push(o.redraw)}
+if(!T.some(t=>t.ok)){x.strokeStyle='rgba(255,255,255,.05)';x.lineWidth=2;for(let i=0;i<w;i+=ts/4){x.beginPath();x.moveTo(i,0);x.lineTo(i,h);x.stroke()}for(let i=0;i<h;i+=ts/4){x.beginPath();x.moveTo(0,i);x.lineTo(w,i);x.stroke()}}
+const P=rt.map(r=>[(MX(r[1],z)-tx0)*ts,(MY(r[0],z)-ty0)*ts]);
+if(P.length>1){const g=x.createLinearGradient(0,0,w,0);g.addColorStop(0,'#8b5cf6');g.addColorStop(1,'#ec4899');x.lineCap='round';x.lineJoin='round';x.strokeStyle='rgba(0,0,0,.55)';x.lineWidth=w/90;x.beginPath();P.forEach((q,i)=>i?x.lineTo(q[0],q[1]):x.moveTo(q[0],q[1]));x.stroke();x.strokeStyle=g;x.lineWidth=w/150;x.shadowColor='#ec4899';x.shadowBlur=w/40;x.stroke();x.shadowBlur=0}
+const dot=(q,c,r)=>{x.beginPath();x.arc(q[0],q[1],r,0,7);x.fillStyle=c;x.fill();x.lineWidth=r/3;x.strokeStyle='#fff';x.stroke()};
+if(P.length){dot(P[0],'#34d399',w/70);dot(P[P.length-1],'#ec4899',w/60)}
+return T}
+function liveMap(){if(!G.on)return;const cv=$('#lm');if(!cv||!G.pts.length)return;const n=Date.now();if(n-(G.lm||0)<900)return;G.lm=n;mapDraw(cv,G.pts.map(q=>[q.la,q.lo]),{z:G.ty=='bike'?15:16,redraw:()=>{G.lm=0;liveMap()}})}
+function gainOf(al){if(al.length<5)return null;const s=al.map((v,i)=>{const w=al.slice(Math.max(0,i-2),i+3);return w.reduce((a,b)=>a+b)/w.length});let g=0,ref=s[0];for(const v of s){if(v-ref>=3){g+=v-ref;ref=v}else if(ref-v>=3)ref=v}return Math.round(g)}
+function inst(){const w=G.win||[];if(w.length<2)return'--';const d=w.slice(1).reduce((a,x)=>a+x[1],0),t=(w[w.length-1][0]-w[0][0])/1e3;if(t<5||d<5)return'--';return G.ty=='bike'?(d/t*3.6).toFixed(1):fmtT(1000/(d/t))}
+function gStart(){if(!navigator.geolocation){G.er='Este navegador não oferece GPS.';return render(1)}
+Object.assign(G,{on:1,pts:[],d:0,el:0,pa:0,auto:0,spl:[],win:[],sg:'Procurando sinal…',er:'',t0:Date.now(),skip:1,lastMove:Date.now(),ap:S.ap!==0,n:0,lm:0});
+G.wid=navigator.geolocation.watchPosition(gFix,gErr,{enableHighAccuracy:true,maximumAge:0,timeout:30000});G.tid=setInterval(gTick,1000);
+try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(w=>G.wl=w).catch(()=>{})}catch(_){}
+render(1)}
+function gTick(){const n=Date.now();if(!G.pa&&!G.auto)G.el+=n-G.t0;G.t0=n;if(G.ap&&!G.pa&&!G.auto&&G.pts.length>1&&n-G.lastMove>10000)G.auto=1;G.n++;if(G.n%10==0){S.gp={ty:G.ty,d:G.d,el:G.el,pts:G.pts.slice(-3000),spl:G.spl};save()}gUI()}
+function gFix(pos){const c=pos.coords;G.sg=c.accuracy>35?'Sinal fraco (±'+Math.round(c.accuracy)+' m)':'GPS ok (±'+Math.round(c.accuracy)+' m)';if(c.accuracy>35||G.pa)return gUI();
+const q={la:c.latitude,lo:c.longitude,t:pos.timestamp,al:(typeof c.altitude=='number'&&(c.altitudeAccuracy==null||c.altitudeAccuracy<=25))?c.altitude:null},l=G.pts[G.pts.length-1];
+if(l&&!G.skip){const d=HV(l,q),dt=(q.t-l.t)/1e3;if(d<Math.max(3,c.accuracy/3)||(dt>0&&d/dt>TY[G.ty][1]))return gUI();G.d+=d;G.win.push([q.t,d]);while(G.win.length&&q.t-G.win[0][0]>25000)G.win.shift();G.auto=0;G.lastMove=Date.now();while(G.d>=(G.spl.length+1)*1000)G.spl.push(Math.round(G.el/1000-G.spl.reduce((a,b)=>a+b,0)))}
+G.skip=0;G.pts.push(q);gUI();liveMap()}
+function gUI(){const s=G.el/1000,km=G.d/1000,v=km/((s/3600)||1),set=(i,t)=>{const el=$('#'+i);if(el)el.textContent=t};set('g_d',km.toFixed(2));set('g_t',fmtT(s));set('g_p',sp(G.ty,km,s).replace(/ .*/,''));set('g_i',inst());set('g_k',Math.round((metV(G.ty,v)-1)*p().w*s/3600));set('g_s',G.pa?'Pausado':G.auto?'Pausa automática':(G.er||G.sg))}
+function gStop(disc){try{navigator.geolocation.clearWatch(G.wid)}catch(_){}clearInterval(G.tid);try{G.wl&&G.wl.release()}catch(_){}G.on=0;S.gp=null;save();const km=G.d/1000,min=G.el/6e4;
+if(disc||km<.1){if(!disc)G.er='Menos de 100 m percorridos: não salvei.';render(1);return}
+const mt=metV(G.ty,km/(min/60)),n=Math.max(1,Math.ceil(G.pts.length/250)),rt=G.pts.filter((_,i)=>i%n==0).map(q=>[+q.la.toFixed(5),+q.lo.toFixed(5)]),al=G.pts.map(q=>q.al).filter(v=>v!=null),m2=Math.max(1,Math.ceil(al.length/100));
+S.wk.push({d:td,n:TY[G.ty][0],m:Math.round(min),km:+km.toFixed(2),k:Math.max(0,(mt-1)*p().w*min/60),ku:0,rt,ty:G.ty,sp:G.spl,mt,sec:Math.round(G.el/1000),up:gainOf(al),el:al.filter((_,i)=>i%m2==0).map(v=>Math.round(v)),ts:Date.now()});save();render(1);det(S.wk.length-1)}
+function delA(i){if(!confirm('Apagar esta atividade?'))return false;const a=S.wk[i];if(a.met){const j=S.ses.lastIndexOf(a.d);if(j>=0)S.ses.splice(j,1)}S.wk.splice(i,1);save();render(1);return true}
+const elev=a=>{const mn=Math.min(...a),mx=Math.max(...a),r=(mx-mn)||1;return `<h3 style="margin-top:12px">Altimetria (${Math.round(mn)} a ${Math.round(mx)} m)</h3><svg viewBox="0 0 300 64" width=100%><polyline fill=none stroke="#8b5cf6" stroke-width=2.5 stroke-linejoin=round points="${a.map((v,i)=>(i/(a.length-1)*296+2).toFixed(1)+','+(58-(v-mn)/r*50).toFixed(1)).join(' ')}"/></svg><p class=m>A altitude do GPS é aproximada.</p>`};
+let DT=0;
+function det(i){DT=i;const a=S.wk[i];if(!a)return;let o=$('#mo');if(!o){o=document.createElement('div');o.id='mo';document.body.appendChild(o)}o.className='mo';const s=a.sec||a.m*60,L=a.sp||[],mx=Math.max(1,...L.map(x=>1/x)),ty=TY[a.ty];
+o.innerHTML=`<div style="max-width:520px;margin:0 auto;text-align:left"><div class=r><h2 style="margin:0">${ty?ic(ty[2],22):''} ${e(a.n)}</h2><span class=m>${a.d.split('-').reverse().join('/')}</span></div>${a.rt&&a.rt.length>1?`<canvas id=dm class=mp width=900 height=560 style="height:auto;aspect-ratio:900/560"></canvas><p class=m style="text-align:right;margin:2px 0">© OpenStreetMap © CARTO</p>`:''}<div class=stat><div><b>${a.km} km</b><span class=m>distância</span></div><div><b>${fmtT(s)}</b><span class=m>tempo</span></div><div><b>${sp(a.ty,a.km,s).replace(/ .*/,'')}</b><span class=m>${a.ty=='bike'?'km/h':'min/km'}</span></div><div><b>${Math.round(a.k)}</b><span class=m>kcal</span></div><div><b>${a.up!=null?a.up+' m':'--'}</b><span class=m>subida</span></div><div><b>${a.mt||'--'}</b><span class=m>MET</span></div></div>${L.length?`<h3>Parciais por km</h3>${L.map((x,j)=>`<div class=r><span style="width:44px">km ${j+1}</span><div class=b style="flex:1;margin:0"><i data-w="${Math.round(1/x/mx*100)}" style="width:0"></i></div><span style="width:56px;text-align:right">${a.ty=='bike'?(3600/x).toFixed(1):fmtT(x)}</span></div>`).join('')}`:''}${a.el&&a.el.length>9?elev(a.el):''}<div class=q style="margin-top:14px"><button class=pri onclick="shr(${i})">Compartilhar</button><button onclick="if(delA(${i}))$('#mo').remove()">Apagar</button><button onclick="$('#mo').remove()">Fechar</button></div></div>`;
+const cv=$('#dm');if(cv){const f=()=>mapDraw(cv,a.rt,{fit:1,redraw:f});f()}fx()}
+function recs(){const R=S.wk.filter(x=>x.km&&x.ty=='run'),mx=Math.max(0,...S.wk.filter(x=>x.km).map(x=>x.km));let bk=9e9,b5=9e9;R.forEach(x=>{const s=x.sp||[];s.forEach(v=>{if(v<bk)bk=v});for(let i=0;i+5<=s.length;i++){const t=s.slice(i,i+5).reduce((a,b)=>a+b);if(t<b5)b5=t}});return `<div class=c><h3>Recordes</h3><div class=stat><div><b>${mx?mx.toFixed(1)+' km':'--'}</b><span class=m>maior distância</span></div><div><b>${bk<9e9?fmtT(bk):'--'}</b><span class=m>melhor km (corrida)</span></div><div><b>${b5<9e9?fmtT(b5):'--'}</b><span class=m>melhor 5 km</span></div></div></div>`}
+function M(){const t=TY[G.ty],L=S.wk.map((x,i)=>[x,i]).filter(([x])=>x.km).reverse().slice(0,15),wk=ago(6),sk=S.wk.filter(x=>x.km&&x.d>=wk).reduce((a,x)=>a+x.km,0),days=[...Array(7)].map((_,i)=>{const d=ago(6-i);return[d,S.wk.filter(x=>x.km&&x.d==d).reduce((a,x)=>a+x.km,0)]}),mxk=Math.max(1,...days.map(x=>x[1]));
+const live=G.on?`<div class="c live"><div class=r><h3 style="margin:0">${ic(t[2],18)} ${t[0]}</h3><span class=m id=g_s></span></div><p class=big><span id=g_d>0.00</span><span class=m> km</span></p><div class=stat><div><b id=g_t>0:00</b><span class=m>tempo</span></div><div><b id=g_p>--</b><span class=m>${G.ty=='bike'?'km/h médio':'min/km médio'}</span></div><div><b id=g_i>--</b><span class=m>agora</span></div></div><canvas id=lm class=mp width=640 height=400 style="height:auto;aspect-ratio:8/5"></canvas><p class=m style="text-align:right;margin:2px 0"><b id=g_k>0</b> kcal · © OpenStreetMap © CARTO</p><label class=m style="display:flex;gap:8px;align-items:center;justify-content:center;margin:6px 0"><input type=checkbox style="width:auto;margin:0" ${G.ap?'checked':''} onchange="G.ap=this.checked;S.ap=this.checked?1:0;save()"> Pausa automática quando parar</label><div class=row><button onclick=gPause()>${G.pa?'Retomar':'Pausar'}</button><button class=pri onclick="gStop()">Finalizar</button></div></div>`
+:`<div class=c><h2>Mover</h2><div class=seg>${Object.entries(TY).map(([k,v])=>`<button class="chip ${G.ty==k?'on':''}" onclick="G.ty='${k}';render(1)">${ic(v[2],22)}${v[0]}</button>`).join('')}</div><button class="pri go" onclick=gStart()>INICIAR</button><p class=m style="text-align:center">O navegador pede permissão de localização. A distância vem do GPS (fórmula de Haversine), ignorando sinais fracos e saltos. Mantenha a tela acesa. ${window.claude?'Nesta pré-visualização o mapa de ruas fica bloqueado: o trajeto aparece sobre uma grade. Na versão do GitHub o mapa aparece.':'O mapa de ruas carrega da internet.'}</p><p class="m warn" id=g_s>${e(G.er||'')}</p></div>`;
+const wb=`<div class=c><h3>Esta semana</h3><p class=big>${sk.toFixed(1)} <span class=m>km</span></p><svg viewBox="0 0 280 96" width=100%>${days.map(([d,k],i)=>{const h=k/mxk*58;return `<rect x=${i*40+8} y=${72-h} width=24 height=${Math.max(2,h)} rx=6 fill="${k?'url(#gb)':'rgba(255,255,255,.1)'}"/><text x=${i*40+20} y=90 text-anchor=middle font-size=11 fill="#9a9ab0">${'DSTQQSS'[new Date(d+'T12:00:00').getDay()]}</text>`}).join('')}<defs><linearGradient id=gb x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#ec4899"/><stop offset=1 stop-color="#8b5cf6"/></linearGradient></defs></svg><p class=m>Total geral: ${kmTot().toFixed(1)} km</p></div>`;
+return live+rcv()+wb+recs()+`<div class=c><h3>Atividades</h3>${L.map(([x,i])=>`<div class=r onclick="det(${i})" style="cursor:pointer"><span>${TY[x.ty]?ic(TY[x.ty][2],18)+' ':''}<b>${e(x.n)} ${x.km} km</b><br><span class=m>${x.d} · ${fmtT(x.sec||x.m*60)} · ${sp(x.ty,x.km,x.sec||x.m*60)} · ${Math.round(x.k)} kcal</span></span><span class=m>Ver ›</span></div>`).join('')||'<p class=m>Faça sua primeira atividade com GPS.</p>'}</div>`}
+// ===== EXTRAS =====
+const quick=()=>`<div class="c q"><button onclick="go('comida')">${ic('camera',22)}Foto</button><button onclick="go('mover')">${ic('run',22)}Mover</button><button onclick="go('treino')">${ic('dumbbell',22)}Treino</button></div>`;
+function wsum(){const D=[...Array(7)].map((_,i)=>ago(i)),fd=D.filter(d=>eat(d).k>0),av=fd.length?fd.reduce((a,d)=>a+eat(d).k,0)/fd.length:0,ap=fd.length?fd.reduce((a,d)=>a+eat(d).p,0)/fd.length:0,ses=S.wk.filter(x=>x.d>=D[6]&&x.met).length,km=S.wk.filter(x=>x.km&&x.d>=D[6]).reduce((a,x)=>a+x.km,0),sc=fd.map(score);
+return `<div class=c><h3>Resumo dos últimos 7 dias</h3><div class=stat><div><b>${Math.round(av)}</b><span class=m>kcal/dia (meta ${goal()})</span></div><div><b>${Math.round(ap)} g</b><span class=m>proteína/dia</span></div><div><b>${sc.length?Math.round(sc.reduce((a,b)=>a+b)/sc.length):'--'}</b><span class=m>pontuação média</span></div><div><b>${ses}</b><span class=m>treinos de força</span></div><div><b>${km.toFixed(1)}</b><span class=m>km</span></div><div><b>${fd.length}/7</b><span class=m>dias com registro</span></div></div></div>`}
+function aiCard(){return `<div class=c><h3>Foto de comida por IA</h3><p class=m>${window.claude?'Dentro do Claude a foto já funciona sem configurar nada. ':S.key?'Chave salva neste aparelho. ':'Fora do Claude, a IA precisa de uma chave da API da Anthropic (opcional). '}A chave fica só neste aparelho e as chamadas são cobradas na sua conta Anthropic. Crie uma chave com limite de gasto e não use em aparelho de outras pessoas.</p><input id=ak2 type=password placeholder="sk-ant-..." autocomplete=off><div class=row><button class=pri onclick="S.key=$('#ak2').value.trim();save();render(1);toast('Chave salva')">Salvar chave</button><button onclick="delete S.key;save();render(1)">Remover</button></div></div>`}
 let tab='hoje',pend=[],ob={act:1,obj:0,rit:1,sex:'f',dias:4,loc:0,exp:0,cy:0,cl:28,pl:5},st=0;
 const toast=t=>{const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2700)};
 const bar=(l,v,m,u)=>`<div class=r><span>${l}</span><span>${Math.round(v)} / ${Math.round(m)} ${u}</span></div><div class=b><i data-w="${Math.min(100,v/(m||1)*100)}" style="width:0"></i></div>`;
 function ring(v,m){const C=2*Math.PI*70,o=C*(1-Math.min(1,v/m));return `<div class=ring><svg viewBox="0 0 170 170" width=170><circle cx=85 cy=85 r=70 stroke="var(--bd)"/><circle cx=85 cy=85 r=70 stroke="url(#gr)" stroke-dasharray="${C}" stroke-dashoffset="${C}" data-o="${o}" style="transition:stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1)"/><defs><linearGradient id=gr><stop offset=0 stop-color="#8b5cf6"/><stop offset=1 stop-color="#ec4899"/></linearGradient></defs></svg><div class=t><span class="big grad" data-n="${Math.round(v)}">0</span><span class=m>de ${Math.round(m)} kcal</span></div></div>`}
 function H(){const g=goal(),a=eat(td),b=burn(td),gast=Math.round(bmr()*1.2+b),m=mac(),bal=Math.round(a.k-gast),w=S.wa[td]||0,wm=35*p().w,t=nextT(),done=S.wk.some(x=>x.d==td&&x.met),sc=score(td);
 return cyCard()+`<div class=c><h3>Fala, ${e(p().n)}</h3>${ring(a.k,g)}<p class=m style="text-align:center">Gasto de hoje: <b>~${gast} kcal</b> (${Math.round(bmr()*1.2)} base + ${Math.round(b)} treino)<br>Saldo: ${bal>0?'+':''}${bal} kcal</p></div>
-<div class=c><h3>Macros</h3>${bar('Proteína',a.p,m.p,'g')}${bar('Carboidrato',a.c,m.c,'g')}${bar('Gordura',a.g,m.f,'g')}</div>
+${quick()}<div class=c><h3>Macros</h3>${bar('Proteína',a.p,m.p,'g')}${bar('Carboidrato',a.c,m.c,'g')}${bar('Gordura',a.g,m.f,'g')}</div>
 <div class=c><div class=row><div><h3>Pontuação</h3><p class="big grad" data-n="${sc}">0</p><p class=m>40 calorias, 30 proteína, 15 água, 15 treino</p></div><div><h3>Sequência</h3><p class=big><span class=fire>${ic('flame',34,1)}</span> ${streak()}</p><p class=m>dias treinando</p></div></div></div>
 <div class=c><h3>Água</h3><div class=r><div class=gl><i data-h="${Math.min(100,w/wm*100)}" style="height:0"></i></div><div style="flex:1;padding-left:14px"><p class=big>${w} ml</p><p class=m>referência prática: ${Math.round(wm)} ml (35 ml/kg)</p><button onclick="water(250)">+250</button> <button onclick="water(-250)">−</button></div></div></div>
 <div class=c><h3>Treino de hoje</h3><p class=big>${t}</p><p class=m>${done?'Já registrado hoje':exs(t).length+' exercícios · '+scheme()}</p><button class=pri onclick="go('treino')">Abrir treino</button></div>`+ins()}
@@ -230,9 +439,9 @@ function C(){const h=S.food.map((x,i)=>[x,i]).filter(([x])=>x.d==td),a=eat(td);
 return `<div class=c><h2>Comida</h2><label class="btn pri" style="display:inline-flex;gap:8px;align-items:center">${ic('camera',18)} Foto da refeição<input type=file accept="image/*" capture=environment hidden onchange="foto(this.files[0])"></label><p id=st class=m>A IA estima porções e calorias. Confira e remova o que estiver errado antes de salvar. É estimativa, não balança.</p><div id=pd>${pdH()}</div></div>
 <div class=c><h3>Manual</h3><select id=fs style="width:100%">${DB.map((f,i)=>`<option value=${i}>${f[0]}</option>`).join('')}</select><div class=row style="margin-top:8px"><input id=fg type=number value=100><button onclick=addM()>Adicionar (g)</button></div><p class=m>Médias aproximadas por 100 g, no estilo da tabela TACO. Para precisão, use a TACO oficial.</p></div>
 <div class=c><h3>Hoje: ${Math.round(a.k)} kcal</h3>${h.map(([x,i])=>`<div class=r><span>${e(x.n)}</span><span>${Math.round(x.k)} kcal<a onclick="delF(${i})">${ic('x',14)}</a></span></div>`).join('')||'<p class=m>Nada registrado ainda.</p>'}</div>`+rcCard()+faCard()}
-async function shrink(f){const b=await createImageBitmap(f),k=Math.min(1,800/Math.max(b.width,b.height)),c=document.createElement('canvas');c.width=b.width*k;c.height=b.height*k;c.getContext('2d').drawImage(b,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,'image/jpeg',.8))}
+async function shrink(f){const b=await createImageBitmap(f),k=Math.min(1,1024/Math.max(b.width,b.height)),c=document.createElement('canvas');c.width=b.width*k;c.height=b.height*k;c.getContext('2d').drawImage(b,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,'image/jpeg',.8))}
 async function foto(f){if(!f)return;const s=$('#st');s.textContent='Analisando…';
-try{const sm=await cl.use('sample');if(!sm||!(await sm.limits()).images){s.textContent='A análise por foto precisa de um servidor de IA, que esta versão não tem. Use o registro manual.';return}
+try{const sm=await cl.use('sample');if(!sm||!(await sm.limits()).images){s.textContent='Análise por foto indisponível aqui. Use o registro manual.';return}
 const r=await sm.json('Você é nutricionista. Identifique cada alimento da foto, estime a porção em gramas e os valores dessa porção. Responda SOMENTE JSON: {"itens":[{"n":"nome em português","g":0,"k":0,"p":0,"c":0,"gd":0}]} onde k=kcal e p,c,gd=proteína, carboidrato e gordura em gramas.',{images:[await shrink(f)],cache:false});
 pend=(r.itens||[]).map(x=>({n:String(x.n),g:+x.g||0,k:+x.k||0,p:+x.p||0,c:+x.c||0,gd:+x.gd||0}));
 s.textContent=pend.length?'Estimativa pronta. Revise e salve.':'Não identifiquei alimentos nessa foto.';$('#pd').innerHTML=pdH()}
@@ -250,13 +459,13 @@ let ch='';if(ws.length>1){const v=ws.map(x=>x.kg),mn=Math.min(...v)-1,mx=Math.ma
 const st0=ws.length?ws[0].kg:p().w,tot=Math.abs(st0-p().wg)||1,pr=Math.min(100,Math.abs(st0-p().w)/tot*100),sem=ago(6),ses=S.wk.filter(x=>x.d>=sem&&x.met).length,pd=Object.keys(S.wa).length;
 return `<div class=c><h2>Evolução</h2><div class=row><input id=kg type=number step=.1 placeholder="Peso hoje (kg)"><button class=pri onclick=addKg()>Salvar</button></div>${ch||'<p class=m>Registre o peso em 2 dias diferentes para ver o gráfico.</p>'}</div>
 <div class=c><h3>Rumo à meta: ${p().w} → ${p().wg} kg</h3><div class=b><i data-w="${pr}" style="width:0"></i></div><p class=m>IMC ${imc().toFixed(1)} (${imcC(imc())}, faixas da OMS). Treinos na semana: ${ses} de ${p().dias} planejados.</p></div>
-${tr()}${ms()}<div class=c><h3>Previsão</h3><p>${kw===null?'Registre comida por alguns dias para estimar.':`Com o saldo médio recente (${Math.round(bal)} kcal/dia): <b>${kw>0?'+':''}${kw.toFixed(2)} kg/semana</b>.`}</p><p class=m>A regra de 7700 kcal por kg é aproximada e exagera com o tempo, porque o corpo se adapta.</p></div>
+${wsum()}${tr()}${ms()}<div class=c><h3>Previsão</h3><p>${kw===null?'Registre comida por alguns dias para estimar.':`Com o saldo médio recente (${Math.round(bal)} kcal/dia): <b>${kw>0?'+':''}${kw.toFixed(2)} kg/semana</b>.`}</p><p class=m>A regra de 7700 kcal por kg é aproximada e exagera com o tempo, porque o corpo se adapta.</p></div>
 <div class=c><h3>Seu gasto real (adaptativo)</h3><p>${ad?`Cruzando comida e variação de peso, seu gasto ficou perto de <b>${ad} kcal/dia</b>. A fórmula diz ${Math.round(bmr()*AF[p().act])}.</p><button onclick="S.p.tov=${ad};save();render(1)">Usar esse gasto na minha meta</button>${p().tov?` <button onclick="delete S.p.tov;save();render(1)">Voltar à fórmula</button>`:''}<p class=m>`:'Precisa de 7+ dias entre pesagens e 5+ dias de comida registrada.'}</p></div>`}
 function addKg(){const v=+$('#kg').value;if(!v)return;S.wt=S.wt.filter(x=>x.d!=td);S.wt.push({d:td,kg:v});S.p.w=v;save();render(1)}
 function F(){const m=mac(),rec=Object.entries(S.lg.reduce((o,x)=>{o[x.ex]=Math.max(o[x.ex]||0,e1(x.kg,x.r));return o},{})).sort((a,b)=>b[1]-a[1]).slice(0,5);
 return `<div class=c><h2>Seu plano</h2><p class=m>Metabolismo basal ${Math.round(bmr())} kcal · gasto estimado ${Math.round(tdee())} kcal · meta ${goal()} kcal</p><p class=m>Proteína ${Math.round(m.p)} g · carboidrato ${Math.round(m.c)} g · gordura ${Math.round(m.f)} g</p><p class=m>Divisão: ${plan().join(' → ')}</p><button onclick="redo()">Refazer perguntas</button></div>
 <div class=c><h3>Recordes (1RM estimado)</h3>${rec.map(([n,v])=>`<div class=r><span>${e(n)}</span><b>${v.toFixed(0)} kg</b></div>`).join('')||'<p class=m>Registre séries com carga para ver seus recordes.</p>'}</div>
-${cyTog()}${bdg()}${bkp()}<div class=c><h3>Base científica</h3><p class=m>Distância: GPS do aparelho, calculada pela fórmula de Haversine. Metabolismo: equação de Mifflin-St Jeor (1990). MET: Compêndio de Atividades Físicas 2024. IMC: faixas da OMS. Atividade: diretrizes da OMS 2020 (150–300 min moderados por semana). Proteína: meta-análise de Morton et al. 2018 (cerca de 1,6 g/kg ou mais). 1RM estimado: fórmula de Epley. Os números são estimativas e não substituem médico ou nutricionista.</p><button onclick="if(confirm('Apagar tudo?')){S={p:{},food:[],wk:[],wt:[],lg:[],ses:[],wa:{}};save();location.reload()}">Apagar meus dados</button></div>`}
+${cyTog()}${aiCard()}${bdg()}${bkp()}<div class=c><h3>Base científica</h3><p class=m>Distância: GPS do aparelho, calculada pela fórmula de Haversine. Metabolismo: equação de Mifflin-St Jeor (1990). MET: Compêndio de Atividades Físicas 2024. IMC: faixas da OMS. Atividade: diretrizes da OMS 2020 (150–300 min moderados por semana). Proteína: meta-análise de Morton et al. 2018 (cerca de 1,6 g/kg ou mais). 1RM estimado: fórmula de Epley. Os números são estimativas e não substituem médico ou nutricionista.</p><button onclick="if(confirm('Apagar tudo?')){S={p:{},food:[],wk:[],wt:[],lg:[],ses:[],wa:{}};save();location.reload()}">Apagar meus dados</button></div>`}
 function redo(){ob=Object.assign({},S.p);st=0;S.p.done=0;render()}
 const ch=(k,o)=>`<div class=ch>${o.map(x=>`<button class="chip ${ob[k]==x[0]?'on':''}" onclick='pick("${k}",${JSON.stringify(x[0])})'>${x[1]}</button>`).join('')}</div>`;
 const fld=(id,l,v,s)=>`<label>${l}</label><input id=${id} type=number ${s?'step=.1':''} value="${v||''}">`;
@@ -285,7 +494,7 @@ st++;if(st==6&&ob.sex!='f')st++;obR()}
 const TB=[['hoje','home','Hoje'],['treino','dumbbell','Treino'],['mover','pin','Mover'],['comida','fork','Comida'],['evol','chart','Evolução']],T={hoje:H,treino:W,mover:M,ciclo:CY,comida:C,evol:E,perfil:F};
 function render(keep){if(!p().done){obR();return}const y=scrollY;$('#v').innerHTML=hdr()+T[tab]();$('#nv').innerHTML=TB.concat(cyOn()?[['ciclo','heart','Ciclo']]:[]).map(t=>`<button class="${t[0]==tab?'on':''}" onclick="go('${t[0]}')">${ic(t[1],22)}<span>${t[2]}</span></button>`).join('');fx();if(keep)scrollTo(0,y)}
 function go(t){tab=t;render();scrollTo(0,0)}
-function fx(){requestAnimationFrame(()=>requestAnimationFrame(()=>{document.querySelectorAll('[data-o]').forEach(c=>c.style.strokeDashoffset=c.dataset.o);document.querySelectorAll('[data-w]').forEach(i=>i.style.width=i.dataset.w+'%');document.querySelectorAll('[data-h]').forEach(i=>i.style.height=i.dataset.h+'%');
+function fx(){G.lm=0;liveMap();requestAnimationFrame(()=>requestAnimationFrame(()=>{document.querySelectorAll('[data-o]').forEach(c=>c.style.strokeDashoffset=c.dataset.o);document.querySelectorAll('[data-w]').forEach(i=>i.style.width=i.dataset.w+'%');document.querySelectorAll('[data-h]').forEach(i=>i.style.height=i.dataset.h+'%');
 document.querySelectorAll('[data-n]').forEach(el=>{const to=+el.dataset.n,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/900);el.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}))}
 render();
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
