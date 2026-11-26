@@ -110,6 +110,66 @@ nav button{flex:1;min-width:0;padding:8px 3px;font-size:10px}
 .social-rank .social-avatar{width:42px;height:42px;font-size:23px}
 .social-bottomspace{height:130px}.social-form .photo-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.social-form input[type=file]{padding:10px;border-radius:12px}
 @media(max-width:420px){.social-profile-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.social-subtabs button{font-size:12px;padding:8px 3px}}
+
+/* Dark Routine Social v2 */
+.drs-comments{padding:10px 13px;border-top:1px solid var(--bd)}.drs-comments p{font-size:11px;margin:7px 0}.drs-comments small{color:var(--mut);font-size:9px}.drs-comment-form{display:flex;gap:6px}.drs-comment-form input{flex:1;min-width:0;margin:0}.drs-comment-form button{font-size:10px;padding:7px 10px}
+.drs-app{max-width:560px;margin:0 auto;padding-bottom:18px}
+.drs-header{display:flex;align-items:center;justify-content:space-between;padding:8px 2px 14px}
+.drs-header h2{font-size:28px;margin:0}.drs-header>button{width:44px;height:44px;border:0;border-radius:16px;background:var(--g);color:#fff;font-size:21px}
+.drs-eyebrow{font-size:9px;letter-spacing:.2em;font-weight:800;color:#c084fc}
+.drs-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:7px;margin-bottom:16px;border:1px solid var(--bd);border-radius:20px;background:rgba(20,18,32,.85);backdrop-filter:blur(16px)}
+.drs-nav button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 2px;border:0;background:none;color:var(--mut);font-size:20px}
+.drs-nav button span{font-size:10px}.drs-nav button.active{color:#fff;background:linear-gradient(135deg,rgba(139,92,246,.32),rgba(236,72,153,.2));border-radius:13px}
+.drs-feed-hero,.drs-discover-hero{padding:20px;border:1px solid var(--bd);border-radius:23px;background:radial-gradient(circle at 90% 5%,rgba(236,72,153,.25),transparent 38%),linear-gradient(135deg,rgba(139,92,246,.2),rgba(255,255,255,.025));margin-bottom:13px}
+.drs-feed-hero{display:flex;align-items:center;justify-content:space-between}.drs-feed-hero h1,.drs-discover-hero h1{font-size:27px;line-height:1.15;margin:7px 0}
+.drs-add{width:48px;height:48px;border:0;border-radius:16px;background:var(--g);color:white;font-size:28px}
+.drs-feed-tabs{display:flex;gap:7px;overflow:auto;padding:2px 0 12px}.drs-feed-tabs button{white-space:nowrap;font-size:11px;border-radius:24px;padding:9px 14px}.drs-feed-tabs button.active{background:var(--g);border:0;color:white}
+.drs-composer{width:100%;display:flex;align-items:center;gap:10px;text-align:left;margin-bottom:14px;border-radius:18px;padding:12px;background:rgba(255,255,255,.04)}
+.drs-composer span:nth-child(2){flex:1;color:var(--mut);font-size:11px}.drs-mini-avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--g)}
+.drs-composer b{font-size:20px;color:#d8b4fe}
+.drs-post{overflow:hidden;margin-bottom:15px;border:1px solid var(--bd);border-radius:21px;background:rgba(255,255,255,.035)}
+.drs-post-head{display:flex;align-items:center;gap:9px;padding:12px}.drs-post-head .social-avatar{width:42px;height:42px;font-size:22px}
+.drs-post-user{flex:1;min-width:0}.drs-post-user b,.drs-post-user small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.drs-post-user small{font-size:9px;color:var(--mut)}
+.drs-follow{font-size:10px;padding:7px 10px;border-radius:20px;color:#d8b4fe}
+.drs-post-copy{padding:0 13px 12px;margin:0;font-size:13px;white-space:pre-wrap}
+.drs-post-media{background:#08070c}.drs-post-media img{display:block;width:100%;max-height:560px;object-fit:cover}
+.drs-activity{display:grid;grid-template-columns:repeat(3,1fr);padding:12px;background:linear-gradient(110deg,rgba(139,92,246,.15),rgba(236,72,153,.10))}
+.drs-activity div{text-align:center;border-right:1px solid var(--bd)}.drs-activity div:last-child{border:0}.drs-activity b,.drs-activity small{display:block}.drs-activity b{font-size:15px}.drs-activity small{font-size:9px;color:var(--mut)}
+.drs-post-actions{display:flex;gap:8px;padding:8px 10px}.drs-post-actions button{border:0;background:none;font-size:11px;color:var(--mut);padding:7px}.drs-post-actions button.liked{color:#f472b6}
+.drs-empty{padding:30px 16px;text-align:center;border:1px dashed var(--bd);border-radius:22px}.drs-empty>div{font-size:28px;color:#c084fc}
+.drs-search{display:flex;gap:6px;margin-top:15px;padding:5px;background:rgba(0,0,0,.22);border:1px solid var(--bd);border-radius:15px}.drs-search input{flex:1;min-width:0;margin:0;border:0;background:transparent}.drs-search button{background:var(--g);border:0;font-size:11px}
+.drs-section-title{display:flex;align-items:center;justify-content:space-between;margin:19px 2px 10px}.drs-section-title h2{font-size:16px;margin:0}
+.drs-people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.drs-person{overflow:hidden;border:1px solid var(--bd);border-radius:19px;background:rgba(255,255,255,.035);text-align:center}
+.drs-person-banner{height:52px;background:radial-gradient(circle at 80% 15%,rgba(236,72,153,.6),transparent 35%),linear-gradient(120deg,#30204d,#29172e)}
+.drs-person-content{padding:0 10px 12px}.drs-person-content .social-avatar{width:56px;height:56px;margin:-27px auto 7px;border:3px solid #171320}
+.drs-person-content>b,.drs-person-content>small{display:block}.drs-person-content>b{font-size:12px}.drs-person-content>small{font-size:9px;color:var(--mut)}
+.drs-person-content p{height:30px;overflow:hidden;font-size:10px;color:var(--mut)}.drs-person-content em{display:block;font-size:9px;color:#d8b4fe;font-style:normal;margin:5px}
+.drs-person-content button{width:100%;margin-top:5px;padding:8px 4px;font-size:10px}
+.drs-person-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.drs-person-row .social-avatar{width:40px;height:40px;font-size:21px}.drs-person-row>div:nth-child(2){flex:1;min-width:0}.drs-person-row b,.drs-person-row small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.drs-person-row small{font-size:9px;color:var(--mut)}.drs-person-row button{font-size:9px;padding:7px}
+.drs-profile{overflow:hidden;border:1px solid var(--bd);border-radius:23px;background:rgba(255,255,255,.025)}
+.drs-cover{height:130px;display:flex;align-items:end;padding:12px;background:radial-gradient(circle at 80% 15%,rgba(236,72,153,.7),transparent 30%),radial-gradient(circle at 15% 90%,rgba(139,92,246,.7),transparent 42%),linear-gradient(120deg,#171025,#2b1a38)}
+.drs-cover span{font-size:9px;letter-spacing:.2em;color:#eadcff}
+.drs-profile-body{padding:0 14px 14px}.drs-profile-head{display:flex;align-items:center;gap:10px;margin-top:-29px;position:relative}
+.drs-profile-head .social-avatar{width:70px;height:70px;border:4px solid #171320;font-size:34px}.drs-profile-head>div:nth-child(2){flex:1;min-width:0;padding-top:26px}.drs-profile-head h2{font-size:16px;margin:0}.drs-profile-head small{font-size:10px;color:var(--mut)}.drs-profile-head button{margin-top:24px;font-size:9px;padding:7px 9px}
+.drs-bio{font-size:11px;color:#d5d0e0;margin:12px 0}.drs-stats{display:grid;grid-template-columns:repeat(3,1fr);padding:12px 0;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+.drs-stats div{text-align:center;border-right:1px solid var(--bd)}.drs-stats div:last-child{border:0}.drs-stats b,.drs-stats small{display:block}.drs-stats b{font-size:16px}.drs-stats small{font-size:9px;color:var(--mut)}
+.drs-profile-label{padding:13px;text-align:center;font-size:9px;letter-spacing:.18em;color:var(--mut)}
+.drs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;padding:3px}.drs-grid>div{aspect-ratio:1;overflow:hidden;background:#21192b}.drs-grid img{width:100%;height:100%;object-fit:cover}.drs-text-post{display:grid;place-items:center;text-align:center;padding:8px;font-size:9px;background:linear-gradient(135deg,#30204d,#3a1b37)}
+.drs-edit{padding:15px;border-top:1px solid var(--bd)}.drs-edit[hidden]{display:none}.drs-edit label{display:block;margin:10px 0 3px}
+.drs-edit input,.drs-edit textarea,.drs-edit select{width:100%;box-sizing:border-box}
+.drs-account-tools{display:flex;gap:7px;padding:12px}.drs-account-tools button{flex:1;font-size:10px}
+.drs-modal{position:fixed;inset:0;z-index:70;background:rgba(5,5,10,.86);backdrop-filter:blur(12px);display:grid;place-items:center;padding:15px}
+.drs-modal-card{position:relative;width:min(100%,480px);max-height:90vh;overflow:auto;padding:19px;border-radius:23px;background:#181321;border:1px solid var(--bd)}
+.drs-modal-card h2{margin:7px 0 14px}.drs-modal-card textarea,.drs-modal-card input,.drs-modal-card select{width:100%;box-sizing:border-box;margin:5px 0 10px}
+.drs-close{float:right;border-radius:50%;padding:6px 10px}
+.drs-login{max-width:500px;margin:20px auto}.drs-login-hero{text-align:center;padding:25px 10px}.drs-mark{width:54px;height:54px;border-radius:18px;background:var(--g);display:grid;place-items:center;margin:0 auto 14px;color:white;font-weight:800;font-size:20px}
+.drs-login-hero h1{font-size:29px;line-height:1.15;margin:8px 0}.drs-auth-card{padding:20px;border:1px solid var(--bd);border-radius:23px;background:rgba(255,255,255,.04)}
+.drs-auth-card label{display:block;margin:10px 0 3px}.drs-auth-card input{width:100%;box-sizing:border-box}.drs-link{border:0;background:none;color:#c4b5fd;padding:0;font-size:11px}
+.drs-auth-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+@media(max-width:420px){.drs-people{grid-template-columns:repeat(2,minmax(0,1fr))}.drs-nav{grid-template-columns:repeat(4,minmax(0,1fr))}.drs-profile-head .social-avatar{width:62px;height:62px}.drs-profile-head button{padding:6px}}
+
 </style></head><body>
 <div class="glow g1"></div><div class="glow g2"></div>
 <main id="v"></main><nav id="nv"></nav><div id="ob"></div>
@@ -373,6 +433,15 @@ Suco de laranja natural|45|0.7|10.4|0.2|250|copo
 Suco de uva integral|60|0.4|15|0.1|200|copo
 Água de coco|19|0.7|3.7|0.2|300|copo
 Café sem açúcar|2|0.1|0|0|50|xícara
+Café com leite|45|2.5|4.5|1.8|150|xícara
+Cappuccino|75|3|10|2.5|150|xícara
+Misto quente|270|13|27|12|120|unidade
+Bolo de fubá|350|6|52|13|60|fatia
+Ovos mexidos|155|10|1|12|100|porção
+Mingau de aveia|95|3.5|14|3|200|tigela
+Suco de laranja|45|0.7|10|0.2|200|copo
+Sopa de legumes|55|2|9|1.5|250|prato
+Canja de galinha|65|5|8|1.5|250|prato
 Cerveja|43|0.5|3.6|0|350|lata
 Vinho tinto|85|0.1|2.6|0|150|taça
 Energético|45|0|11|0|250|lata
@@ -444,7 +513,7 @@ return live+rcv()+wb+recs()+`<div class=c><h3>Atividades</h3>${L.map(([x,i])=>`<
 const quick=()=>`<div class="c q"><button onclick="go('comida')">${ic('camera',22)}Foto</button><button onclick="go('mover')">${ic('run',22)}Mover</button><button onclick="go('treino')">${ic('dumbbell',22)}Treino</button></div>`;
 function wsum(){const D=[...Array(7)].map((_,i)=>ago(i)),fd=D.filter(d=>eat(d).k>0),av=fd.length?fd.reduce((a,d)=>a+eat(d).k,0)/fd.length:0,ap=fd.length?fd.reduce((a,d)=>a+eat(d).p,0)/fd.length:0,ses=S.wk.filter(x=>x.d>=D[6]&&x.met).length,km=S.wk.filter(x=>x.km&&x.d>=D[6]).reduce((a,x)=>a+x.km,0),sc=fd.map(score);
 return `<div class=c><h3>Resumo dos últimos 7 dias</h3><div class=stat><div><b>${Math.round(av)}</b><span class=m>kcal/dia (meta ${goal()})</span></div><div><b>${Math.round(ap)} g</b><span class=m>proteína/dia</span></div><div><b>${sc.length?Math.round(sc.reduce((a,b)=>a+b)/sc.length):'--'}</b><span class=m>pontuação média</span></div><div><b>${ses}</b><span class=m>treinos de força</span></div><div><b>${km.toFixed(1)}</b><span class=m>km</span></div><div><b>${fd.length}/7</b><span class=m>dias com registro</span></div></div></div>`}
-function aiCard(){return `<div class=c><h3>Reconhecimento de comida por foto</h3><p class=m>O Dark Routine usa visão computacional local para comparar a foto inteira e recortes da refeição com alimentos comuns. A imagem não é enviada a uma IA externa. Na primeira utilização, o aparelho baixa o modelo CLIP quantizado (cerca de 155 MB); depois ele pode ser reutilizado pelo cache do navegador. As sugestões são pistas visuais, não certezas: confirme os itens, ajuste as porções e confira o preparo antes de salvar.</p></div>`}
+function aiCard(){return `<div class=c><h3>Reconhecimento de comida por foto</h3><p class=m>O Dark Routine usa visão computacional local para comparar a foto inteira e recortes com alimentos e bebidas, incluindo opções brasileiras como pão de queijo, cafezinho, cuscuz, tapioca e feijoada. A imagem não é enviada a uma IA externa. Na primeira utilização, o aparelho baixa o modelo CLIP quantizado (cerca de 155 MB); depois ele pode ser reutilizado pelo cache do navegador. As sugestões são pistas visuais, não certezas: confirme os itens, ajuste as porções e confira o preparo antes de salvar.</p></div>`}
 let tab='hoje',pend=[],ob={act:1,obj:0,rit:1,sex:'f',dias:4,loc:0,exp:0,cy:0,cl:28,pl:5},st=0;
 const toast=t=>{const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2700)};
 const bar=(l,v,m,u)=>`<div class=r><span>${l}</span><span>${Math.round(v)} / ${Math.round(m)} ${u}</span></div><div class=b><i data-w="${Math.min(100,v/(m||1)*100)}" style="width:0"></i></div>`;
@@ -512,7 +581,30 @@ const DR_FOOD_META={
  'hamburger':{n:'Hambúrguer completo (lanchonete)',db:'Hambúrguer completo (lanchonete)',g:200},
  'french fries':{n:'Batata frita',db:'Batata frita',g:100},
  'pizza':{n:'Pizza de mussarela',db:'Pizza de mussarela',g:110},
- 'fried rice':{n:'Arroz frito',db:null,g:150}
+ 'fried rice':{n:'Arroz frito',db:null,g:150},
+ 'Brazilian cheese bread (pao de queijo)':{n:'Pão de queijo',db:'Pão de queijo',g:30},
+ 'a small Brazilian cheese bread snack':{n:'Pão de queijo',db:'Pão de queijo',g:30},
+ 'a cup of black coffee':{n:'Café sem açúcar',db:'Café sem açúcar',g:50},
+ 'a small cup of Brazilian black coffee':{n:'Café sem açúcar',db:'Café sem açúcar',g:50},
+ 'coffee with milk in a cup':{n:'Café com leite',db:'Café com leite',g:150},
+ 'a cup of cappuccino':{n:'Cappuccino',db:'Cappuccino',g:150},
+ 'Brazilian feijoada stew with black beans and pork':{n:'Feijoada',db:'Feijoada',g:250},
+ 'Brazilian coxinha chicken croquette':{n:'Coxinha frita',db:'Coxinha frita',g:100},
+ 'Brazilian fried meat pastry (pastel)':{n:'Pastel de carne frito',db:'Pastel de carne frito',g:100},
+ 'Brazilian corn couscous (cuscuz)':{n:'Cuscuz de milho',db:'Cuscuz de milho',g:130},
+ 'Brazilian tapioca crepe':{n:'Tapioca',db:'Tapioca (goma hidratada)',g:60},
+ 'Brazilian french bread roll (pao frances)':{n:'Pão francês',db:'Pão francês',g:50},
+ 'a slice of white bread':{n:'Pão de forma',db:'Pão de forma',g:25},
+ 'a grilled cheese sandwich':{n:'Misto quente',db:'Misto quente',g:120},
+ 'a slice of homemade cake':{n:'Bolo simples',db:'Bolo simples',g:60},
+ 'Brazilian cornmeal cake (bolo de fuba)':{n:'Bolo de fubá',db:'Bolo de fubá',g:60},
+ 'scrambled eggs':{n:'Ovos mexidos',db:'Ovos mexidos',g:100},
+ 'a bowl of oatmeal porridge':{n:'Mingau de aveia',db:'Mingau de aveia',g:200},
+ 'a glass of milk':{n:'Leite integral',db:'Leite integral',g:200},
+ 'a glass of orange juice':{n:'Suco de laranja',db:'Suco de laranja',g:200},
+ 'a bowl of salad':{n:'Salada simples',db:'Salada simples',g:100},
+ 'a bowl of vegetable soup':{n:'Sopa de legumes',db:'Sopa de legumes',g:250},
+ 'a bowl of chicken soup':{n:'Canja de galinha',db:'Canja de galinha',g:250}
 };
 const DR_FOOD_LABELS=Object.keys(DR_FOOD_META);
 async function drFoodModel(status){
@@ -539,7 +631,7 @@ async function drFoodCropBlobs(blob){
 function drFoodRender(){
  const el=$('#drFoodResult');if(!el)return;
  if(!DR_FOOD_RESULTS.length){el.innerHTML='';return;}
- el.innerHTML=`<div class="social-card"><b>Possíveis alimentos na foto</b><p class=m>O modelo compara a foto inteira e quatro recortes. A pontuação é uma semelhança relativa entre opções, não uma probabilidade de acerto. Alguns itens podem estar errados ou faltar; confirme antes de adicionar.</p>${DR_FOOD_RESULTS.map((r,i)=>{const meta=DR_FOOD_META[r.label]||{},food=meta.db?allF().find(x=>nz(x.n)===nz(meta.db)):null,added=food&&pend.some(x=>nz(x.n)===nz(food.n));return `<div class=r><span style="min-width:0;flex:1">${e(meta.n||r.label)}<br><small class=m>Similaridade: ${Math.round((r.score||0)*100)}% · apareceu em ${r.hits||1}/5 recortes</small></span><button ${added?'disabled':''} onclick="drFoodChoose(${i})">${added?'Adicionado':food?'Adicionar':'Buscar alimento'}</button></div>`}).join('')}</div>`;
+ el.innerHTML=`<div class="social-card"><b>Possíveis alimentos na foto</b><p class=m>O modelo compara a foto inteira e quatro recortes. A pontuação é uma semelhança relativa entre opções, não uma probabilidade de acerto. O modelo pode errar, principalmente em comidas brasileiras, bebidas e pratos misturados. Se não tiver certeza, use a busca manual; não registre uma sugestão só porque apareceu primeiro.</p>${DR_FOOD_RESULTS.map((r,i)=>{const meta=DR_FOOD_META[r.label]||{},food=meta.db?allF().find(x=>nz(x.n)===nz(meta.db)):null,added=food&&pend.some(x=>nz(x.n)===nz(food.n));return `<div class=r><span style="min-width:0;flex:1">${e(meta.n||r.label)}<br><small class=m>Similaridade: ${Math.round((r.score||0)*100)}% · apareceu em ${r.hits||1}/5 recortes</small></span><button ${added?'disabled':''} onclick="drFoodChoose(${i})">${added?'Adicionado':food?'Adicionar':'Buscar alimento'}</button></div>`}).join('')}</div>`;
 }
 function drFoodChoose(i){
  const r=DR_FOOD_RESULTS[i];if(!r)return;const meta=DR_FOOD_META[r.label]||{},st=$('#st');
@@ -568,7 +660,7 @@ async function foto(f){
    const out=await model(image,DR_FOOD_LABELS);
    for(const item of (Array.isArray(out)?out.slice(0,6):[])){const key=item.label,old=aggregate.get(key)||{label:key,score:0,hits:0};old.score=Math.max(old.score,+item.score||0);old.hits++;aggregate.set(key,old);}
   }
-  DR_FOOD_RESULTS=[...aggregate.values()].filter(x=>x.score>=.035).sort((a,b)=>(b.score+(b.hits-1)*.012)-(a.score+(a.hits-1)*.012)).slice(0,8);
+  DR_FOOD_RESULTS=[...aggregate.values()].filter(x=>x.score>=.055).sort((a,b)=>(b.score+(b.hits-1)*.012)-(a.score+(a.hits-1)*.012)).slice(0,8);
   drFoodRender();s.textContent=DR_FOOD_RESULTS.length?'Análise local concluída. Selecione todos os alimentos que realmente aparecem e ajuste as porções.':'Não consegui sugerir alimentos com segurança. Use a busca manual abaixo.';
  }catch(err){console.error('Dark Routine food classifier:',err);s.textContent=err&&err.message?err.message:'Não foi possível analisar a foto. Verifique a internet no primeiro download e tente novamente.';}
 }
@@ -621,7 +713,7 @@ st++;if(st==6&&ob.sex!='f')st++;obR()}
 // Dark Routine Social / Supabase
 const DR_SUPABASE_URL='https://arjlvuhyarskympscujs.supabase.co';
 const DR_SUPABASE_KEY='sb_publishable_TVztsm1scVgPAQ973amtCQ_kCjNoqoM';
-let sb=null, socialPane='profile', socialCache={friends:[],requests:[],posts:[],challenges:[]}, socialAvatar='🏃';
+let sb=null, socialPane='feed', socialCache={friends:[],requests:[],posts:[],challenges:[]}, socialAvatar='🏃';
 try{if(window.supabase?.createClient)sb=window.supabase.createClient(DR_SUPABASE_URL,DR_SUPABASE_KEY)}catch(_){}
 const currentUser=async()=>{if(!sb)return null;const {data}=await sb.auth.getSession();return data?.session?.user||null};
 const avatarSet=['🏃','🏋️','🚴','🥷','🧙','🦸','🧝','🧑‍🚀','🐺','🦊','🐼','🐈','🦉','🐸','🦄','🐯','🐙','🦋','🤖','👾','🦖','🐻','🐧','🐲','🦈','🦝','🐹','🐵','🐣','🦩','🍄','🌵','🔥','🌙','⚡','💎','🎮','🎧','🏆','🛡️'];
@@ -774,7 +866,7 @@ async function socialComments(id){
  const u=await currentUser(),ids=[...new Set((data||[]).map(x=>x.user_id))],{data:profiles}=ids.length?await sb.from('profiles').select('id,username,display_name').in('id',ids):{data:[]};
  const m=Object.fromEntries((profiles||[]).map(x=>[x.id,x]));
  const el=$('#comments-'+id);if(!el)return;
- el.innerHTML=`<div class=social-card>${(data||[]).map(c=>`<p><b>${e(m[c.user_id]?.display_name||m[c.user_id]?.username||'Usuário')}</b>: ${e(c.content)}</p>`).join('')||'<p class=m>Sem comentários.</p'}<input id=cm-${id} maxlength=300 placeholder="Comentar"><button onclick="socialComment('${id}')">Enviar</button></div>`;
+ el.innerHTML=`<div class=social-card>${(data||[]).map(c=>`<p><b>${e(m[c.user_id]?.display_name||m[c.user_id]?.username||'Usuário')}</b>: ${e(c.content)}</p>`).join('')||'<p class=m>Sem comentários.</p>'}<input id=cm-${id} maxlength=300 placeholder="Comentar"><button onclick="socialComment('${id}')">Enviar</button></div>`;
 }
 async function socialComment(id){const u=await currentUser(),content=($('#cm-'+id).value||'').trim();if(!content)return;const {error}=await sb.from('post_comments').insert({post_id:id,user_id:u.id,content});if(error)return toast(error.message);await socialComments(id)}
 async function socialChallengeView(){
@@ -870,6 +962,233 @@ function routineView(){
  <div class="wide"><label for="routineRepeat">Repetir</label><select id="routineRepeat"><option value="daily">Todos os dias</option><option value="weekdays">Dias úteis (seg. a sex.)</option><option value="weekend">Fim de semana</option><option value="once">Somente neste dia</option></select></div>
  <button class="pri wide" onclick="routineAdd()">＋ Adicionar à rotina</button></div></div>
  <div class="c"><h3>Como funciona</h3><p class="m">Marque cada atividade quando concluir. Seu progresso fica salvo neste aparelho e é separado por dia. Você pode voltar às datas anteriores para consultar o que fez.</p></div>`;
+}
+
+
+/* ================= DARK ROUTINE SOCIAL V2 ================= */
+let drSocialRecovery = new URLSearchParams(location.search).get('social-recovery')==='1';
+let drSocialFeedMode='forYou';
+try{
+ if(sb) sb.auth.onAuthStateChange((event)=>{
+  if(event==='PASSWORD_RECOVERY'){drSocialRecovery=true;socialPane='recovery';render(1)}
+ });
+}catch(_){}
+
+function socialAuthView(){
+ return `<section class="drs-login"><div class="drs-login-hero"><div class="drs-mark">DR</div><span class="drs-eyebrow">DARK ROUTINE COMMUNITY</span><h1>Sua jornada merece ser <span class=grad>compartilhada.</span></h1><p class=m>Encontre inspiração, celebre conquistas e evolua junto.</p></div><div class="drs-auth-card"><label>E-mail</label><input id=socEmail type=email autocomplete=email placeholder="seu@email.com"><label>Senha</label><input id=socPass type=password autocomplete=current-password placeholder="Sua senha"><button class=drs-link onclick="socialSendReset()">Esqueci minha senha</button><div class=drs-auth-actions><button class=pri onclick="socialAuth('login')">Entrar</button><button onclick="socialAuth('signup')">Criar conta</button></div><p class=m>Você poderá escolher entre conta pública ou privada.</p></div></section>`;
+}
+async function socialSendReset(){
+ const email=($('#socEmail')?.value||'').trim();
+ if(!email)return toast('Digite seu e-mail primeiro.');
+ const redirectTo=location.origin+location.pathname+'?social-recovery=1';
+ const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo});
+ if(error)return toast(error.message);
+ toast('Se o e-mail estiver cadastrado, enviaremos um link para redefinir a senha.');
+}
+function socialRecoveryView(){
+ return `<section class="drs-login"><div class="drs-login-hero"><div class="drs-mark">DR</div><h1>Crie uma <span class=grad>nova senha.</span></h1><p class=m>Escolha uma senha segura para continuar.</p></div><div class=drs-auth-card><label>Nova senha</label><input id=drsNewPass type=password autocomplete=new-password placeholder="Mínimo de 8 caracteres"><label>Confirmar senha</label><input id=drsNewPass2 type=password autocomplete=new-password placeholder="Repita a senha"><button class=pri onclick="socialUpdatePassword()">Salvar nova senha</button></div></section>`;
+}
+async function socialUpdatePassword(){
+ const a=$('#drsNewPass')?.value||'',b=$('#drsNewPass2')?.value||'';
+ if(a.length<8)return toast('Use pelo menos 8 caracteres.');
+ if(a!==b)return toast('As senhas não coincidem.');
+ const {error}=await sb.auth.updateUser({password:a});
+ if(error)return toast(error.message);
+ drSocialRecovery=false;history.replaceState({},'',location.pathname);socialPane='feed';toast('Senha atualizada!');render(1);
+}
+async function socialFollowUser(target){
+ const {data,error}=await sb.rpc('social_follow_user',{target_user:target});
+ if(error)return toast('Não foi possível seguir: '+error.message);
+ toast(data==='pending'?'Solicitação para seguir enviada.':'Agora você está seguindo!');
+ render(1);
+}
+async function socialUnfollowUser(target){
+ const u=await currentUser();
+ const {error}=await sb.from('social_follows').delete().eq('follower_id',u.id).eq('following_id',target);
+ if(error)return toast(error.message);
+ toast('Você deixou de seguir.');render(1);
+}
+async function socialRespondFollow(id,approve){
+ const {error}=await sb.rpc('social_respond_follow',{follow_id:id,approve});
+ if(error)return toast(error.message);
+ toast(approve?'Solicitação aceita!':'Solicitação recusada.');render(1);
+}
+async function socialFollowStatus(target){
+ const u=await currentUser();
+ const {data}=await sb.from('social_follows').select('id,status').eq('follower_id',u.id).eq('following_id',target).maybeSingle();
+ return data||null;
+}
+function socialOpenComposer(){
+ $('#socialComposerModal')?.remove();
+ const m=document.createElement('div');m.className='drs-modal';m.id='socialComposerModal';
+ m.innerHTML=`<div class=drs-modal-card><button class=drs-close onclick="$('#socialComposerModal').remove()">✕</button><span class=drs-eyebrow>NOVA PUBLICAÇÃO</span><h2>Compartilhe seu momento</h2><textarea id=socPost maxlength=1000 rows=4 placeholder="O que você quer compartilhar?"></textarea><div class=row><input id=socKm type=number step=.1 min=0 placeholder="Distância (km)"><input id=socMin type=number min=0 placeholder="Tempo (min)"></div><label>Foto</label><input id=socPostPhoto type=file accept="image/*"><label>Quem pode ver?</label><select id=socPostVisibility><option value=public>Público</option><option value=followers>Seguidores aprovados</option></select><p class=m id=socImportNote></p><button onclick=socialImportLatest()>Importar atividade recente</button><button class=pri onclick=socialPost()>Publicar</button></div>`;
+ document.body.appendChild(m);
+}
+async function socialPost(){
+ const u=await currentUser(),content=($('#socPost')?.value||'').trim(),km=+($('#socKm')?.value)||null,mins=+($('#socMin')?.value)||null,file=$('#socPostPhoto')?.files?.[0];
+ if(!content&&!km&&!file)return toast('Escreva algo, inclua uma distância ou escolha uma foto.');
+ let media_url=null;
+ if(file){
+  if(file.size>6*1024*1024)return toast('Foto até 6 MB.');
+  if(!file.type.startsWith('image/'))return toast('Escolha uma imagem.');
+  const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg',path=u.id+'/post-'+Date.now()+'.'+ext;
+  const {error:up}=await sb.storage.from('social-post-images').upload(path,file,{upsert:false,contentType:file.type});
+  if(up)return toast('Upload da foto falhou: '+up.message);
+  media_url=sb.storage.from('social-post-images').getPublicUrl(path).data.publicUrl;
+ }
+ const visibility=$('#socPostVisibility')?.value||'public';
+ const {error}=await sb.from('social_posts').insert({user_id:u.id,content,activity_km:km,activity_minutes:mins,media_url,visibility});
+ if(error)return toast(error.message);
+ $('#socialComposerModal')?.remove();toast('Publicação enviada!');render(1);
+}
+async function socialDeletePost(id){
+ if(!confirm('Excluir esta publicação?'))return;
+ const u=await currentUser(),{error}=await sb.from('social_posts').delete().eq('id',id).eq('user_id',u.id);
+ if(error)return toast(error.message);toast('Publicação excluída.');render(1);
+}
+async function socialFeedView(){
+ const u=await currentUser();
+ const [{data:follows},{data:friendships}]=await Promise.all([
+  sb.from('social_follows').select('following_id').eq('follower_id',u.id).eq('status','accepted'),
+  sb.from('friendships').select('requester,addressee').eq('status','accepted').or(`requester.eq.${u.id},addressee.eq.${u.id}`)
+ ]);
+ const followed=new Set([u.id,...(follows||[]).map(x=>x.following_id),...(friendships||[]).map(x=>x.requester===u.id?x.addressee:x.requester)]);
+ const {data,error}=await sb.from('social_posts').select('id,user_id,content,activity_km,activity_minutes,media_url,visibility,created_at').order('created_at',{ascending:false}).limit(100);
+ if(error)return `<div class=c><p class=m>${e(error.message)}</p><button onclick="render(1)">Tentar novamente</button></div>`;
+ let posts=data||[];
+ posts=drSocialFeedMode==='following'?posts.filter(x=>followed.has(x.user_id)):posts.filter(x=>!followed.has(x.user_id)&&x.user_id!==u.id&&(!x.visibility||x.visibility==='public'));
+ const ids=[...new Set(posts.map(x=>x.user_id))],{data:profiles}=ids.length?await sb.from('profiles').select('id,username,display_name,avatar,avatar_url,privacy').in('id',ids):{data:[]};
+ const pm=Object.fromEntries((profiles||[]).map(x=>[x.id,x])),postIds=posts.map(x=>x.id);
+ const [{data:reactions},{data:myReactions},{data:comments}]=postIds.length?await Promise.all([
+  sb.from('post_reactions').select('post_id,user_id').in('post_id',postIds),
+  sb.from('post_reactions').select('post_id,user_id').eq('user_id',u.id).in('post_id',postIds),
+  sb.from('post_comments').select('post_id').in('post_id',postIds)
+ ]):[{data:[]},{data:[]},{data:[]}];
+ const likes={},commentCounts={},liked=new Set((myReactions||[]).map(x=>x.post_id));
+ (reactions||[]).forEach(x=>likes[x.post_id]=(likes[x.post_id]||0)+1);
+ (comments||[]).forEach(x=>commentCounts[x.post_id]=(commentCounts[x.post_id]||0)+1);
+ return `<section class=drs-feed>
+  <div class=drs-feed-hero><div><span class=drs-eyebrow>MOVE WITH YOUR PEOPLE</span><h1>Inspire. <span class=grad>Move.</span> Repeat.</h1><p class=m>Seu progresso pode inspirar alguém.</p></div><button class=drs-add onclick=socialOpenComposer()>＋</button></div>
+  <div class=drs-feed-tabs><button class="${drSocialFeedMode==='forYou'?'active':''}" onclick="drSocialFeedMode='forYou';render(1)">Para você</button><button class="${drSocialFeedMode==='following'?'active':''}" onclick="drSocialFeedMode='following';render(1)">Seguindo</button><button onclick="socialPane='discover';render(1)">Explorar ✦</button></div>
+  <button class=drs-composer onclick=socialOpenComposer()><span class=drs-mini-avatar>${e(socialAvatar||'🏃')}</span><span>Compartilhe uma conquista, foto ou ideia…</span><b>＋</b></button>
+  ${posts.length?posts.map(p=>{
+   const pr=pm[p.user_id]||{},mine=p.user_id===u.id;
+   return `<article class=drs-post><header class=drs-post-head>${socialAvatarHTML(pr.avatar,pr.avatar_url)}<div class=drs-post-user><b>${e(pr.display_name||pr.username||'Atleta')}</b><small>@${e(pr.username||'')} · ${new Date(p.created_at).toLocaleString('pt-BR')}</small></div>${mine?`<button onclick="socialDeletePost('${p.id}')">•••</button>`:drSocialFeedMode==='forYou'?`<button class=drs-follow onclick="socialFollowUser('${p.user_id}')">＋ Seguir</button>`:`<span class=drs-follow>✓ Seguindo</span>`}</header>
+    ${p.content?`<p class=drs-post-copy>${e(p.content)}</p>`:''}
+    ${p.media_url?`<div class=drs-post-media><img src="${e(p.media_url)}" alt="Foto publicada"></div>`:''}
+    ${p.activity_km?`<div class=drs-activity><div><b>${(+p.activity_km).toFixed(2)} km</b><small>Distância</small></div><div><b>${p.activity_minutes||0} min</b><small>Duração</small></div><div><b>🏃</b><small>Atividade</small></div></div>`:''}
+    <div class=drs-post-actions><button class="${liked.has(p.id)?'liked':''}" onclick="socialLike('${p.id}')">${liked.has(p.id)?'♥':'♡'} ${likes[p.id]||0}</button><button onclick="socialComments('${p.id}')">◌ ${commentCounts[p.id]||0} comentários</button><button onclick="socialSharePost('${p.id}')">↗ Compartilhar</button></div><div id=comments-${p.id}></div>
+   </article>`;
+  }).join(''):`<div class=drs-empty><div>✦</div><h2>${drSocialFeedMode==='forYou'?'Ainda estamos encontrando conteúdos para você':'Seu feed está esperando por você'}</h2><p class=m>${drSocialFeedMode==='forYou'?'Explore pessoas e descubra novas jornadas.':'Siga pessoas para acompanhar suas publicações.'}</p><button class=pri onclick="socialPane='discover';render()">Descobrir pessoas</button></div>`}
+ </section>`;
+}
+async function socialSharePost(id){
+ const url=location.origin+location.pathname+'?post='+encodeURIComponent(id);
+ try{await navigator.clipboard.writeText(url);toast('Link copiado!')}catch(_){prompt('Copie o link:',url)}
+}
+async function socialDiscoverView(){
+ const u=await currentUser(),q=($('#drsSearch')?.value||'').trim().replace(/^@/,'');
+ let query=sb.from('profiles').select('id,username,display_name,avatar,avatar_url,bio,privacy').neq('id',u.id).limit(80);
+ if(q)query=query.ilike('username',q+'%');
+ const {data,error}=await query;
+ if(error)return `<div class=c><p class=m>${e(error.message)}</p></div>`;
+ const [{data:follows},{data:friends}]=await Promise.all([
+  sb.from('social_follows').select('following_id,status').eq('follower_id',u.id),
+  sb.from('friendships').select('requester,addressee,status').eq('status','accepted').or(`requester.eq.${u.id},addressee.eq.${u.id}`)
+ ]);
+ const already=new Set([...(follows||[]).map(x=>x.following_id),...(friends||[]).map(x=>x.requester===u.id?x.addressee:x.requester)]);
+ const people=(data||[]).filter(x=>!already.has(x.id));
+ return `<section class=drs-discover><div class=drs-discover-hero><span class=drs-eyebrow>EXPLORE A COMUNIDADE</span><h1>Descubra quem <span class=grad>te inspira.</span></h1><p class=m>Novas pessoas, novas metas e novas histórias.</p><div class=drs-search><input id=drsSearch placeholder="Buscar por @username" value="${e(q)}" onkeydown="if(event.key==='Enter')render(1)"><button onclick=render(1)>Buscar</button></div></div><div class=drs-section-title><div><h2>Sugestões para você</h2><p class=m>Pessoas da comunidade para conhecer.</p></div><span>✦</span></div><div class=drs-people>${people.map(x=>`<article class=drs-person><div class=drs-person-banner></div><div class=drs-person-content>${socialAvatarHTML(x.avatar,x.avatar_url)}<b>${e(x.display_name||x.username)}</b><small>@${e(x.username||'')}</small><p>${e(x.bio||'Compartilhando evolução todos os dias.')}</p><em>${x.privacy==='public'?'🌐 Pública':'🔒 Privada'}</em><button class=pri onclick="socialFollowUser('${x.id}')">${x.privacy==='public'?'Seguir':'Solicitar para seguir'}</button><button onclick="socialRequest('${x.id}')">Adicionar como amigo</button></div></article>`).join('')||'<p class=m>Nenhuma sugestão disponível agora.</p>'}</div></section>`;
+}
+async function socialProfile(){
+ const u=await currentUser();if(!u)return socialAuthView();
+ const {data:p,error}=await sb.from('profiles').select('id,username,display_name,avatar,avatar_url,bio,privacy').eq('id',u.id).maybeSingle();
+ if(error)return `<div class=c><p class=m>${e(error.message)}</p></div>`;
+ const profile=p||{},av=profile.avatar||'🏃',name=profile.display_name||S.p.n||'Atleta',username=profile.username||'';
+ socialPhotoUrl=profile.avatar_url||null;socialAvatar=av;
+ const [{count:followers},{count:following},{count:postsCount}]=await Promise.all([
+  sb.from('social_follows').select('*',{count:'exact',head:true}).eq('following_id',u.id).eq('status','accepted'),
+  sb.from('social_follows').select('*',{count:'exact',head:true}).eq('follower_id',u.id).eq('status','accepted'),
+  sb.from('social_posts').select('*',{count:'exact',head:true}).eq('user_id',u.id)
+ ]);
+ const {data:posts}=await sb.from('social_posts').select('id,content,media_url,activity_km,created_at').eq('user_id',u.id).order('created_at',{ascending:false}).limit(30);
+ return `<section class=drs-profile><div class=drs-cover><span>DARK ROUTINE / ATHLETE</span></div><div class=drs-profile-body><div class=drs-profile-head>${socialAvatarHTML(av,profile.avatar_url)}<div><h2>${e(name)}</h2><small>@${e(username||'defina_seu_username')}</small></div><button onclick="$('#drsEdit').hidden=!$('#drsEdit').hidden">Editar perfil</button></div><p class=drs-bio>${e(profile.bio||'Conte um pouco sobre sua jornada.')}</p><div class=drs-stats><div><b>${postsCount||0}</b><small>posts</small></div><div><b>${followers||0}</b><small>seguidores</small></div><div><b>${following||0}</b><small>seguindo</small></div></div><div class=drs-profile-label>PUBLICAÇÕES</div><div class=drs-grid>${(posts||[]).map(x=>x.media_url?`<div><img src="${e(x.media_url)}" alt="Post"></div>`:`<div class=drs-text-post>${e((x.content||'Atividade').slice(0,80))}</div>`).join('')||'<p class=m>Suas publicações aparecerão aqui.</p>'}</div></div>
+ <div class="drs-edit" id=drsEdit hidden><h3>Editar perfil</h3><label>Nome</label><input id=socName maxlength=32 value="${e(name)}"><label>Username</label><input id=socUser maxlength=24 value="${e(username)}"><label>Bio</label><textarea id=socBio maxlength=160 rows=3>${e(profile.bio||'')}</textarea><label>Foto de perfil</label><input id=socPhoto type=file accept=image/* onchange="socialUploadPhoto(this)"><button onclick=socialRemovePhoto()>Remover foto</button><label>Privacidade da conta</label><select id=socPrivacy><option value=public ${profile.privacy==='public'?'selected':''}>Pública</option><option value=private ${profile.privacy==='private'?'selected':''}>Privada</option><option value=friends ${profile.privacy==='friends'?'selected':''}>Amigos / seguidores aprovados</option></select><button class=pri onclick="socialSaveProfile(socialAvatar)">Salvar perfil</button><button onclick=socialCopyProfileLink()>Copiar link do perfil</button></div><div class=drs-account-tools><button onclick=socialBackup()>Backup privado</button><button onclick=socialLogout()>Sair</button></div></section>`;
+}
+async function socialPublicProfileView(username){
+ const u=await currentUser(),{data:p,error}=await sb.from('profiles').select('id,username,display_name,avatar,avatar_url,bio,privacy').eq('username',username).maybeSingle();
+ if(error||!p)return `<div class=drs-empty><h2>Perfil não encontrado</h2><button onclick="history.replaceState({},'',location.pathname);render(1)">Voltar</button></div>`;
+ if(p.id===u.id){history.replaceState({},'',location.pathname);socialPane='profile';return socialProfile()}
+ const status=await socialFollowStatus(p.id);
+ const {data:friendEdge}=await sb.from('friendships').select('id').eq('status','accepted').or(`and(requester.eq.${u.id},addressee.eq.${p.id}),and(requester.eq.${p.id},addressee.eq.${u.id})`).maybeSingle();
+ const privateProfile=p.privacy!=='public'&&status?.status!=='accepted'&&!friendEdge;
+ const {data:followCounts}=await sb.rpc('social_follow_counts',{target_user:p.id});
+ const followers=followCounts?.[0]?.followers||0,following=followCounts?.[0]?.following||0;
+ const {count:postsCount}=await sb.from('social_posts').select('*',{count:'exact',head:true}).eq('user_id',p.id);
+ const {data:posts}=privateProfile?{data:[]} : await sb.from('social_posts').select('id,content,media_url,activity_km,created_at').eq('user_id',p.id).order('created_at',{ascending:false}).limit(30);
+ return `<section class=drs-profile><div class=drs-cover><span>DARK ROUTINE / COMMUNITY</span></div><div class=drs-profile-body><div class=drs-profile-head>${socialAvatarHTML(p.avatar,p.avatar_url)}<div><h2>${e(p.display_name||p.username)}</h2><small>@${e(p.username)}</small></div><button class=pri onclick="${status?.status==='accepted'?`socialUnfollowUser('${p.id}')`:`socialFollowUser('${p.id}')`}">${status?.status==='accepted'?'Deixar de seguir':status?.status==='pending'?'Cancelar solicitação':'Seguir'}</button></div><p class=drs-bio>${e(p.bio||'')}</p><div class=drs-stats><div><b>${postsCount||0}</b><small>posts</small></div><div><b>${followers||0}</b><small>seguidores</small></div><div><b>${following||0}</b><small>seguindo</small></div></div>${privateProfile?`<div class=drs-empty>🔒<h2>Esta conta é privada</h2><p class=m>Siga para pedir acesso às publicações.</p></div>`:`<div class=drs-grid">${(posts||[]).map(x=>x.media_url?`<div><img src="${e(x.media_url)}"></div>`:`<div class=drs-text-post>${e((x.content||'Atividade').slice(0,80))}</div>`).join('')||'<p class=m>Este perfil ainda não publicou.</p>'}</div>`}</div></section>`;
+}
+async function socialFriendView(){
+ const d=await socialFriendData(),u=await currentUser();
+ const reqMap=Object.fromEntries(d.reqProf.map(x=>[x.id,x])),outMap=Object.fromEntries(d.outProf.map(x=>[x.id,x]));
+ const {data:pending}=await sb.from('social_follows').select('id,follower_id').eq('following_id',u.id).eq('status','pending');
+ const reqIds=(pending||[]).map(x=>x.follower_id),{data:reqProfiles}=reqIds.length?await sb.from('profiles').select('id,username,display_name,avatar,avatar_url').in('id',reqIds):{data:[]};
+ const rpm=Object.fromEntries((reqProfiles||[]).map(x=>[x.id,x]));
+ return `<section class=drs-friends><div class=drs-discover-hero><span class=drs-eyebrow>YOUR PEOPLE</span><h1>Conexões que <span class=grad>inspiram.</span></h1><p class=m>Cuide da sua rede e encontre novas pessoas.</p><button class=pri onclick="socialPane='discover';render()">＋ Descobrir pessoas</button><button onclick=socialCopyInvite()>Convidar amigos</button></div>
+ <div class=drs-section-title><h2>Pedidos para seguir (${pending?.length||0})</h2></div>${(pending||[]).map(x=>{const p=rpm[x.follower_id]||{};return `<div class=drs-person-row>${socialAvatarHTML(p.avatar,p.avatar_url)}<div><b>${e(p.display_name||p.username||'Usuário')}</b><small>@${e(p.username||'')}</small></div><button class=pri onclick="socialRespondFollow('${x.id}',true)">Aceitar</button><button onclick="socialRespondFollow('${x.id}',false)">Recusar</button></div>`}).join('')||'<p class=m>Nenhum pedido de seguidor.</p>'}
+ <div class=drs-section-title><h2>Pedidos de amizade (${d.incoming.length})</h2></div>${d.incoming.map(x=>{const p=reqMap[x.requester]||{};return `<div class=drs-person-row>${socialAvatarHTML(p.avatar,p.avatar_url)}<div><b>${e(p.display_name||p.username||'Usuário')}</b><small>@${e(p.username||'')}</small></div><button class=pri onclick="socialAccept('${x.id}')">Aceitar</button><button onclick="socialReject('${x.id}')">Recusar</button></div>`}).join('')||'<p class=m>Nenhum pedido de amizade.</p>'}
+ <div class=drs-section-title><h2>Seus amigos (${d.friends.length})</h2></div>${d.friends.map(p=>`<div class=drs-person-row>${socialAvatarHTML(p.avatar,p.avatar_url)}<div><b>${e(p.display_name||p.username)}</b><small>@${e(p.username||'')}</small></div><button onclick="socialRemove('${p.id}')">Remover</button></div>`).join('')||'<p class=m>Você ainda não adicionou amigos.</p>'}
+ <div class=drs-section-title><h2>Pedidos enviados</h2></div>${d.outgoing.map(x=>{const p=outMap[x.addressee]||{};return `<div class=drs-person-row>${socialAvatarHTML(p.avatar,p.avatar_url)}<div><b>${e(p.display_name||p.username||'Usuário')}</b><small>@${e(p.username||'')}</small></div><span class=drs-pill>Pendente</span></div>`}).join('')||'<p class=m>Nenhum pedido enviado.</p>'}</section>`;
+}
+async function socialSearch(){
+ const u=await currentUser(),q=($('#socSearch')?.value||'').trim().replace(/^@/,'');
+ if(!q)return toast('Digite um username.');
+ const {data,error}=await sb.from('profiles').select('id,username,display_name,avatar,avatar_url,bio,privacy').ilike('username',q+'%').limit(12);
+ if(error)return toast(error.message);
+ const list=(data||[]).filter(x=>x.id!==u.id),el=$('#socResults');if(!el)return;
+ el.innerHTML=list.map(x=>`<div class=drs-person-row>${socialAvatarHTML(x.avatar,x.avatar_url)}<div><b>${e(x.display_name||x.username)}</b><small>@${e(x.username)}</small></div><button class=pri onclick="socialFollowUser('${x.id}')">Seguir</button><button onclick="socialRequest('${x.id}')">Amigo</button></div>`).join('')||'<p class=m>Nenhum perfil encontrado.</p>';
+}
+async function socialMain(){
+ if(!sb)return `<div class=c><h2>Social</h2><p class=m>Supabase não carregou. Verifique a conexão.</p></div>`;
+ if(drSocialRecovery)return socialRecoveryView();
+ const u=await currentUser();if(!u)return socialAuthView();
+ await ensureProfile();
+ const username=new URLSearchParams(location.search).get('user');
+ let content='';
+ if(username)content=await socialPublicProfileView(username);
+ else if(socialPane==='profile')content=await socialProfile();
+ else if(socialPane==='friends')content=await socialFriendView();
+ else if(socialPane==='discover')content=await socialDiscoverView();
+ else if(socialPane==='feed')content=await socialFeedView();
+ else if(socialPane==='challenges')content=await socialChallengeView();
+ else if(socialPane==='ranking')content=await socialRankingView();
+ else if(socialPane==='messages')content=await socialMessagesView();
+ return `<section class=drs-app><header class=drs-header><div><span class=drs-eyebrow>YOUR SPACE TO GROW</span><h2><span class=grad>Social</span></h2></div><button onclick="socialPane='profile';render()" aria-label="Perfil">${e(socialAvatar||'🏃')}</button></header><nav class=drs-nav>
+ <button class="${socialPane==='feed'?'active':''}" onclick="socialPane='feed';history.replaceState({},'',location.pathname);render()">⌂<span>Feed</span></button>
+ <button class="${socialPane==='discover'?'active':''}" onclick="socialPane='discover';render()">✦<span>Explorar</span></button>
+ <button class="${socialPane==='friends'?'active':''}" onclick="socialPane='friends';render()">♧<span>Amigos</span></button>
+ <button class="${socialPane==='profile'?'active':''}" onclick="socialPane='profile';render()">◎<span>Perfil</span></button>
+ <button class="${socialPane==='challenges'?'active':''}" onclick="socialPane='challenges';render()">⚑<span>Desafios</span></button>
+ <button class="${socialPane==='ranking'?'active':''}" onclick="socialPane='ranking';render()">♛<span>Ranking</span></button>
+ <button class="${socialPane==='messages'?'active':''}" onclick="socialPane='messages';render()">✉<span>Mensagens</span></button>
+ </nav>${content}</section><div class=social-bottomspace></div>`;
+}
+
+
+async function socialLike(post){
+ const u=await currentUser();
+ const {error}=await sb.from('post_reactions').upsert({post_id:post,user_id:u.id,reaction:'❤️'});
+ if(error)return toast(error.message);
+ render(1);
+}
+async function socialComments(id){
+ const {data,error}=await sb.from('post_comments').select('id,user_id,content,created_at').eq('post_id',id).order('created_at');
+ if(error)return toast(error.message);
+ const ids=[...new Set((data||[]).map(x=>x.user_id))];
+ const {data:profiles}=ids.length?await sb.from('profiles').select('id,username,display_name').in('id',ids):{data:[]};
+ const map=Object.fromEntries((profiles||[]).map(x=>[x.id,x]));
+ const el=$('#comments-'+id);if(!el)return;
+ el.innerHTML=`<div class=drs-comments>${(data||[]).map(c=>`<p><b>${e(map[c.user_id]?.display_name||map[c.user_id]?.username||'Atleta')}</b> ${e(c.content)} <small>${new Date(c.created_at).toLocaleDateString('pt-BR')}</small></p>`).join('')||'<p class=m>Seja a primeira pessoa a comentar.</p>'}<div class=drs-comment-form><input id=cm-${id} maxlength=300 placeholder="Escreva um comentário…"><button class=pri onclick="socialComment('${id}')">Enviar</button></div></div>`;
 }
 
 const TB=[['hoje','home','Hoje'],['rotina','clock','Rotina'],['treino','dumbbell','Treino'],['mover','pin','Mover'],['comida','fork','Comida'],['evol','chart','Evolução'],['social','user','Social']],T={hoje:H,rotina:routineView,treino:W,mover:M,ciclo:CY,comida:C,evol:E,perfil:F,social:socialMain};

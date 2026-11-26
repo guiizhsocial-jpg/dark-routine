@@ -1,31 +1,35 @@
-# Dark Routine
+# Dark Routine Social v2
 
-App de treino, alimentação, GPS e rotina que roda no navegador e pode ser instalado no celular (PWA).
+## O que foi atualizado
+- Novo visual para a área Social, com navegação compacta para celular, feed, perfil e descoberta.
+- Feed separado em **Para você** e **Seguindo**.
+- Descoberta de perfis e sugestões de pessoas.
+- Sistema de seguir/solicitar para seguir, com aprovação em contas privadas.
+- Perfil público ou privado e visibilidade individual da publicação.
+- Contadores de seguidores/seguindo/publicações.
+- Recuperação de senha por e-mail e tela para cadastrar a nova senha.
+- Mantém amizades, pedidos de amizade, mensagens, desafios, ranking, comentários, reações e backup já existentes.
+- Mantém as melhorias anteriores de reconhecimento de alimentos brasileiros.
 
-## Publicar no GitHub Pages
-1. Envie todos os arquivos desta pasta para a raiz do repositório (incluindo `index.html`, `sw.js`, `manifest.webmanifest`, ícones e `.nojekyll`, se existir).
-2. Em **Settings > Pages**, escolha **Deploy from a branch**, branch `main`, pasta `/ (root)`.
-3. Aguarde a publicação e abra o endereço do GitHub Pages.
+## Instalação — importante
+1. Faça backup do repositório antes de substituir arquivos.
+2. No Supabase, abra **SQL Editor → New query**.
+3. Cole e execute o arquivo `dark-routine-social-v2.sql` deste pacote.
+4. Só depois substitua `index.html` e `sw.js` no repositório GitHub.
+5. Faça commit e aguarde a publicação do site.
+6. Abra o aplicativo com internet para atualizar o PWA.
 
-## Instalar no celular
-- Android (Chrome): menu ⋮ > **Instalar app** ou **Adicionar à tela inicial**.
-- iPhone (Safari): Compartilhar > **Adicionar à Tela de Início**.
+## Recuperação de senha
+No Supabase, abra **Authentication → URL Configuration** e adicione a URL pública do seu app à lista de Redirect URLs. Se usar domínio próprio e GitHub Pages, autorize o endereço exato do app (ou um padrão seguro para esse domínio). A recuperação só completa se o Supabase aceitar o endereço de retorno.
 
-## Novidades em Mover
-- Modos de corrida, caminhada, pedal e trilha.
-- GPS com filtragem de ruído e saltos, pausa automática opcional e tela acordada quando o navegador permitir.
-- Sugestão após finalizar quando a velocidade média em movimento parece incompatível com o tipo escolhido. A sugestão nunca muda a atividade sem confirmação.
-- Ganho de elevação aproximado quando o aparelho fornece altitude confiável; o valor pode não aparecer em alguns celulares e não substitui um altímetro/barômetro dedicado.
-- Detalhes da atividade com velocidade, ritmo, subida e perfil de elevação quando há amostras suficientes.
-- Exportação do trajeto em GPX para usar em outros serviços compatíveis.
-- Compartilhamento em imagem 1080×1920 com identidade Dark Routine ou com foto da galeria como fundo, trajeto opcional e informações da atividade.
+## Privacidade
+A migração cria `social_follows` e aplica uma regra de leitura restritiva às publicações: posts de perfis privados ou de visibilidade "seguidores" só podem ser lidos pelo dono, por seguidores aprovados ou por amigos aceitos. A consulta de perfil ainda permite descobrir username, avatar e bio para enviar solicitação; não use essa tabela para guardar e-mail, telefone ou dados de saúde.
 
-## Limitações importantes
-- O GPS do navegador pode perder precisão em mata fechada, vales, prédios e trilhas íngremes. Mantenha o app aberto e a tela ativa; o bloqueio de tela pode interromper a localização em alguns aparelhos.
-- A altitude depende do sensor e do provedor de localização do aparelho. Se o celular não fornecer altitude confiável, a subida ficará indisponível ou aproximada.
-- As sugestões de caminhada/corrida/trilha são heurísticas baseadas em velocidade e subida, não uma avaliação esportiva definitiva.
-- A imagem para redes sociais é montada localmente no aparelho. O usuário escolhe se quer incluir o trajeto, que pode revelar locais privados.
-- Os dados do app ficam no aparelho (localStorage). Exporte backups periodicamente.
+## O que depende do Supabase
+O ZIP não consegue executar a migração no seu projeto Supabase. É obrigatório executar o SQL antes de publicar o novo `index.html`. Sem isso, o feed, as sugestões e os botões de seguir vão mostrar erro de tabela/função inexistente.
 
-## Foto de comida
-O reconhecimento de imagem é executado no navegador. Na primeira utilização, o aparelho baixa o modelo visual; as sugestões devem ser conferidas e as porções ajustadas antes de registrar.
+## Limitações da versão
+- Sugestões atuais são uma lista de descoberta da comunidade, não um algoritmo de recomendação baseado em interesses ou aprendizado.
+- Não inclui Stories, chamadas, notificações push ou moderação automática.
+- A recuperação de senha depende do e-mail SMTP/configuração de autenticação do Supabase.
+- Testes realizados: sintaxe JavaScript verificada com Node.js. A integração real com o projeto Supabase precisa ser validada após executar a migração e publicar, pois não tenho acesso administrativo ao seu painel.
