@@ -376,7 +376,7 @@ Café sem açúcar|2|0.1|0|0|50|xícara
 Cerveja|43|0.5|3.6|0|350|lata
 Vinho tinto|85|0.1|2.6|0|150|taça
 Energético|45|0|11|0|250|lata
-Isotônico|26|0|6|0|500|garrafa`.split('\n').filter(Boolean).map(l=>{const a=l.split('|');return{n:a[0],k:+a[1],p:+a[2],c:+a[3],g:+a[4],q:+a[5]||100,u:a[6]||'porção'}});
+Isotônico|26|0|6|0|500|garrafa\nArroz com legumes|135|3|27|1.5|150|porção\nCarne bovina cozida (ensopada)|212|29|0|10|120|porção\nCarne suína cozida (ensopada)|242|27|0|14|120|porção\nMilho cozido|96|3.4|21|1.5|80|porção\nCenoura cozida|30|0.8|7|0.2|80|porção\nErvilha cozida|84|5.4|15|0.4|80|porção\nSalada simples|20|1|4|0.2|80|porção`.split('\n').filter(Boolean).map(l=>{const a=l.split('|');return{n:a[0],k:+a[1],p:+a[2],c:+a[3],g:+a[4],q:+a[5]||100,u:a[6]||'porção'}});
 const MEALS=['Café da manhã','Almoço','Lanche','Jantar'],allF=()=>FDS.concat(S.cf||[]);
 let MT=(h=>h<10?MEALS[0]:h<15?MEALS[1]:h<18?MEALS[2]:MEALS[3])(new Date().getHours()),FS=null,FG=100,FQ='',PIC='';
 const mOpt=()=>MEALS.map(m=>`<option ${m==MT?'selected':''}>${m}</option>`).join('');
@@ -440,7 +440,7 @@ return live+rcv()+wb+recs()+`<div class=c><h3>Atividades</h3>${L.map(([x,i])=>`<
 const quick=()=>`<div class="c q"><button onclick="go('comida')">${ic('camera',22)}Foto</button><button onclick="go('mover')">${ic('run',22)}Mover</button><button onclick="go('treino')">${ic('dumbbell',22)}Treino</button></div>`;
 function wsum(){const D=[...Array(7)].map((_,i)=>ago(i)),fd=D.filter(d=>eat(d).k>0),av=fd.length?fd.reduce((a,d)=>a+eat(d).k,0)/fd.length:0,ap=fd.length?fd.reduce((a,d)=>a+eat(d).p,0)/fd.length:0,ses=S.wk.filter(x=>x.d>=D[6]&&x.met).length,km=S.wk.filter(x=>x.km&&x.d>=D[6]).reduce((a,x)=>a+x.km,0),sc=fd.map(score);
 return `<div class=c><h3>Resumo dos últimos 7 dias</h3><div class=stat><div><b>${Math.round(av)}</b><span class=m>kcal/dia (meta ${goal()})</span></div><div><b>${Math.round(ap)} g</b><span class=m>proteína/dia</span></div><div><b>${sc.length?Math.round(sc.reduce((a,b)=>a+b)/sc.length):'--'}</b><span class=m>pontuação média</span></div><div><b>${ses}</b><span class=m>treinos de força</span></div><div><b>${km.toFixed(1)}</b><span class=m>km</span></div><div><b>${fd.length}/7</b><span class=m>dias com registro</span></div></div></div>`}
-function aiCard(){return `<div class=c><h3>Reconhecimento de comida por foto</h3><p class=m>O Dark Routine usa um modelo Food-101 executado no próprio navegador. A foto não é enviada para uma IA externa. Na primeira utilização, o aparelho baixa o modelo (aprox. 60 MB); depois ele pode ser reutilizado pelo cache do navegador. O modelo sugere o prato principal, mas não mede porções nem calcula os macros de uma refeição mista. Confira os alimentos e ajuste os gramas manualmente.</p></div>`}
+function aiCard(){return `<div class=c><h3>Reconhecimento de comida por foto</h3><p class=m>O Dark Routine usa visão computacional local para comparar a foto inteira e recortes da refeição com alimentos comuns. A imagem não é enviada a uma IA externa. Na primeira utilização, o aparelho baixa o modelo CLIP quantizado (cerca de 155 MB); depois ele pode ser reutilizado pelo cache do navegador. As sugestões são pistas visuais, não certezas: confirme os itens, ajuste as porções e confira o preparo antes de salvar.</p></div>`}
 let tab='hoje',pend=[],ob={act:1,obj:0,rit:1,sex:'f',dias:4,loc:0,exp:0,cy:0,cl:28,pl:5},st=0;
 const toast=t=>{const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2700)};
 const bar=(l,v,m,u)=>`<div class=r><span>${l}</span><span>${Math.round(v)} / ${Math.round(m)} ${u}</span></div><div class=b><i data-w="${Math.min(100,v/(m||1)*100)}" style="width:0"></i></div>`;
@@ -464,37 +464,110 @@ function addW(){const a=ACT[$('#as').value],m=+$('#am').value,km=+$('#ak').value
 function kudo(i){S.wk[i].ku=(S.wk[i].ku||0)+1;save();render(1)}
 const pdH=()=>pend.length?pend.map((x,i)=>`<div class=r><span>${e(x.n)} (~${Math.round(x.g)} g)</span><span>${Math.round(x.k)} kcal<a onclick="pend.splice(${i},1);$('#pd').innerHTML=pdH()">${ic('x',14)}</a></span></div>`).join('')+`<button class=pri onclick="savePend()">Salvar tudo</button>`:'';
 function C(){const h=S.food.map((x,i)=>[x,i]).filter(([x])=>x.d==td),a=eat(td);
-return `<div class=c><h2>Comida</h2><div class=row><label class="btn pri" style="display:flex;gap:8px;align-items:center;justify-content:center">${ic('camera',18)} Tirar foto<input type=file accept="image/*" capture=environment hidden onchange="foto(this.files[0]);this.value=''"></label><label class=btn style="display:flex;align-items:center;justify-content:center;background:var(--s);color:var(--tx);border:1px solid var(--bd)">Galeria<input type=file accept="image/*" hidden onchange="foto(this.files[0]);this.value=''"></label></div><p id=st class=m>O reconhecimento roda no seu aparelho. Na primeira utilização, baixe o modelo (aprox. 60 MB). A IA sugere o prato principal; confira e registre a porção manualmente.</p><div id=drFoodResult></div><div id=pd>${pdH2()}</div></div>
+return `<div class=c><h2>Comida</h2><div class=row><label class="btn pri" style="display:flex;gap:8px;align-items:center;justify-content:center">${ic('camera',18)} Tirar foto<input type=file accept="image/*" capture=environment hidden onchange="foto(this.files[0]);this.value=''"></label><label class=btn style="display:flex;align-items:center;justify-content:center;background:var(--s);color:var(--tx);border:1px solid var(--bd)">Galeria<input type=file accept="image/*" hidden onchange="foto(this.files[0]);this.value=''"></label></div><p id=st class=m>O reconhecimento roda no próprio aparelho. Na primeira utilização, baixe o modelo (aprox. 155 MB). Ele analisa a foto inteira e recortes para sugerir vários alimentos; confirme e ajuste as porções antes de salvar.</p><div id=drFoodResult></div><div id=pd>${pdH2()}</div></div>
 <div class=c><h3>Buscar alimento (${allF().length})</h3><input id=fq placeholder="Ex.: pizza, coxinha, arroz, whey..." value="${e(FQ)}" oninput="FQ=this.value;$('#fr').innerHTML=fres()"><div id=fr>${fres()}</div>${FS?`<div style="border-top:1px solid var(--bd);margin-top:8px;padding-top:10px"><b>${e(FS.n)}</b><div class=ch style="margin:8px 0">${[.5,1,1.5,2].map(m=>`<button class=chip onclick="FG=${FS.q*m};$('#fg2').value=FG;fcalc()">${m}× · ${Math.round(FS.q*m)} g</button>`).join('')}</div><input id=fg2 type=number value="${FG}" oninput="FG=+this.value;fcalc()"><p class=m id=fk></p><select id=mt style="width:100%;margin-bottom:8px">${mOpt()}</select><button class=pri onclick=fadd()>Adicionar ao dia</button></div>`:''}<p class=m>Valores nutricionais são referências aproximadas; receitas, marcas e preparo mudam os resultados.</p></div>
 <div class=c><h3>Alimento personalizado</h3><input id=cn placeholder="Nome (ex.: Marmita da firma)"><div class=row><input id=ck type=number placeholder="kcal/100 g"><input id=cq type=number placeholder="porção (g)"><input id=cp type=number placeholder="proteína/100 g"><input id=cc type=number placeholder="carbo/100 g"></div><input id=cg type=number placeholder="gordura/100 g"><button onclick=fcust()>Salvar</button></div>
 <div class=c><h3>Hoje: ${Math.round(a.k)} kcal</h3>${h.map(([x,i])=>`<div class=r><span>${e(x.n)}</span><span>${Math.round(x.k)} kcal<a aria-label="Apagar" onclick="delF(${i})">${ic('x',14)}</a></span></div>`).join('')||'<p class=m>Nada registrado ainda.</p>'}</div>`+rcCard()+faCard()}
 
 async function shrink(f){const b=await createImageBitmap(f),k=Math.min(1,1024/Math.max(b.width,b.height)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(b.width*k));c.height=Math.max(1,Math.round(b.height*k));const ctx=c.getContext('2d');if(!ctx)throw new Error('Não foi possível preparar a imagem neste aparelho.');ctx.drawImage(b,0,0,c.width,c.height);const blob=await new Promise((resolve,reject)=>c.toBlob(x=>x?resolve(x):reject(new Error('Falha ao converter a foto. Tente outra imagem.')),'image/jpeg',.85));if(b.close)b.close();return blob}
-// Reconhecimento de alimentos 100% no navegador: a foto não é enviada a uma API.
+// Reconhecimento de alimentos local, por comparação visual multi-recorte.
+// A foto permanece no dispositivo; o modelo é baixado do Hugging Face e reutilizado pelo cache.
 let DR_FOOD_PIPE=null,DR_FOOD_LOADING=null,DR_FOOD_RESULTS=[],DR_FOOD_PHOTO_URL=null;
-const DR_FOOD_MODEL='onnx-community/swin-finetuned-food101-ONNX';
-const DR_FOOD_PT={apple_pie:'torta de maçã',baby_back_ribs:'costelinha suína',baklava:'baklava',beef_carpaccio:'carpaccio bovino',beef_tartare:'steak tartare',beet_salad:'salada de beterraba',beignets:'beignets',bibimbap:'bibimbap',bread_pudding:'pudim de pão',breakfast_burrito:'burrito de café da manhã',bruschetta:'bruschetta',caesar_salad:'salada caesar',cannoli:'cannoli',caprese_salad:'salada caprese',carrot_cake:'bolo de cenoura',ceviche:'ceviche',cheesecake:'cheesecake',cheese_plate:'tábua de queijos',chicken_curry:'frango ao curry',chicken_quesadilla:'quesadilla de frango',chicken_wings:'asas de frango',chocolate_cake:'bolo de chocolate',chocolate_mousse:'mousse de chocolate',churros:'churros',club_sandwich:'sanduíche club',crab_cakes:'bolinho de caranguejo',creme_brulee:'crème brûlée',croque_madame:'croque madame',cup_cakes:'cupcakes',deviled_eggs:'ovos recheados',donuts:'donuts',dumplings:'dumplings',edamame:'edamame',eggs_benedict:'ovos beneditinos',escargots:'escargots',falafel:'falafel',filet_mignon:'filé mignon',fish_and_chips:'peixe com batata frita',foie_gras:'foie gras',french_fries:'batata frita',french_onion_soup:'sopa de cebola',french_toast:'rabanada',fried_calamari:'lula empanada',fried_rice:'arroz frito',frozen_yogurt:'iogurte congelado',garlic_bread:'pão de alho',gnocchi:'nhoque',greek_salad:'salada grega',grilled_cheese:'sanduíche de queijo',grilled_salmon:'salmão grelhado',guacamole:'guacamole',gyoza:'gyoza',hamburger:'hambúrguer',hot_and_sour_soup:'sopa agridoce',hot_dog:'cachorro-quente',huevos_rancheros:'huevos rancheros',hummus:'homus',ice_cream:'sorvete',lasagna:'lasanha',lobster_bisque:'bisque de lagosta',lobster_roll:'sanduíche de lagosta',macaroni_and_cheese:'macarrão com queijo',macarons:'macarons',miso_soup:'sopa de missô',mussels:'mexilhões',nachos:'nachos',omelette:'omelete',onion_rings:'anéis de cebola',oysters:'ostras',pad_thai:'pad thai',paella:'paella',pancakes:'panquecas',panna_cotta:'panna cotta',peking_duck:'pato à pequim',pho:'pho',pizza:'pizza',pork_chop:'costeleta suína',poutine:'poutine',prime_rib:'costela bovina',pulled_pork:'carne suína desfiada',ramen:'ramen',ravioli:'ravióli',red_velvet_cake:'bolo red velvet',risotto:'risoto',samosa:'samosa',sashimi:'sashimi',scallops:'vieiras',seaweed_salad:'salada de algas',shrimp_and_grits:'camarão com polenta',spaghetti_bolognese:'espaguete à bolonhesa',spaghetti_carbonara:'espaguete à carbonara',spring_rolls:'rolinhos primavera',steak:'bife',strawberry_shortcake:'bolo de morango',sushi:'sushi',tacos:'tacos',takoyaki:'takoyaki',tiramisu:'tiramisù',tuna_tartare:'tartar de atum',waffles:'waffles'};
-const DR_FOOD_MATCH={french_fries:'Batata frita',hamburger:'Hambúrguer completo (lanchonete)',hot_dog:'Cachorro-quente completo',omelette:'Omelete',grilled_salmon:'Salmão grelhado',sushi:'Sushi (1 peça)',ice_cream:'Sorvete de creme',donuts:'Donut',steak:'Carne bovina grelhada'};
+const DR_FOOD_MODEL='Xenova/clip-vit-base-patch32';
+const DR_FOOD_META={
+ 'cooked white rice':{n:'Arroz branco cozido',db:'Arroz branco cozido',g:150},
+ 'brazilian rice with vegetables':{n:'Arroz com legumes',db:'Arroz com legumes',g:150},
+ 'pinto beans':{n:'Feijão carioca cozido',db:'Feijão carioca cozido',g:100},
+ 'black beans':{n:'Feijão preto cozido',db:'Feijão preto cozido',g:100},
+ 'lentils':{n:'Lentilha cozida',db:'Lentilha cozida',g:100},
+ 'chickpeas':{n:'Grão-de-bico cozido',db:'Grão-de-bico cozido',g:100},
+ 'beef stew':{n:'Carne bovina cozida (ensopada)',db:'Carne bovina cozida (ensopada)',g:120},
+ 'cooked beef chunks':{n:'Carne bovina cozida (ensopada)',db:'Carne bovina cozida (ensopada)',g:120},
+ 'pork stew':{n:'Carne suína cozida (ensopada)',db:'Carne suína cozida (ensopada)',g:120},
+ 'cooked pork chunks':{n:'Carne suína cozida (ensopada)',db:'Carne suína cozida (ensopada)',g:120},
+ 'grilled beef steak':{n:'Bife de patinho grelhado',db:'Bife de patinho grelhado',g:120},
+ 'grilled chicken breast':{n:'Peito de frango grelhado',db:'Peito de frango grelhado',g:120},
+ 'roasted chicken thigh':{n:'Coxa de frango assada',db:'Coxa de frango assada',g:100},
+ 'fried chicken':{n:'Frango frito',db:'Frango frito',g:100},
+ 'pork sausage':{n:'Linguiça de porco grelhada',db:'Linguiça de porco grelhada',g:80},
+ 'fried egg':{n:'Ovo frito',db:'Ovo frito',g:50},
+ 'boiled egg':{n:'Ovo cozido',db:'Ovo cozido',g:50},
+ 'cooked pasta':{n:'Macarrão cozido',db:'Macarrão cozido',g:140},
+ 'mashed potatoes':{n:'Purê de batata',db:'Purê de batata',g:120},
+ 'boiled potatoes':{n:'Batata inglesa cozida',db:'Batata inglesa cozida',g:130},
+ 'cooked cassava':{n:'Mandioca cozida',db:'Mandioca cozida',g:100},
+ 'cooked corn kernels':{n:'Milho cozido',db:'Milho cozido',g:80},
+ 'cooked carrots':{n:'Cenoura cozida',db:'Cenoura cozida',g:80},
+ 'green peas':{n:'Ervilha cozida',db:'Ervilha cozida',g:80},
+ 'cooked broccoli':{n:'Brócolis cozido',db:'Brócolis cozido',g:80},
+ 'simple lettuce and tomato salad':{n:'Salada simples',db:'Salada simples',g:80},
+ 'grilled fish fillet':{n:'Tilápia grelhada',db:'Tilápia grelhada',g:120},
+ 'cooked shrimp':{n:'Camarão cozido',db:'Camarão cozido',g:100},
+ 'farofa':{n:'Farofa',db:'Farofa',g:40},
+ 'fried bacon':{n:'Bacon frito',db:'Bacon frito',g:20},
+ 'hamburger':{n:'Hambúrguer completo (lanchonete)',db:'Hambúrguer completo (lanchonete)',g:200},
+ 'french fries':{n:'Batata frita',db:'Batata frita',g:100},
+ 'pizza':{n:'Pizza de mussarela',db:'Pizza de mussarela',g:110},
+ 'fried rice':{n:'Arroz frito',db:null,g:150}
+};
+const DR_FOOD_LABELS=Object.keys(DR_FOOD_META);
 async function drFoodModel(status){
  if(DR_FOOD_PIPE)return DR_FOOD_PIPE;
  if(!DR_FOOD_LOADING){
   DR_FOOD_LOADING=(async()=>{
-   if(status)status.textContent='Preparando o reconhecimento local… na primeira vez o modelo precisa ser baixado (aprox. 60 MB).';
+   if(status)status.textContent='Preparando o reconhecedor local… na primeira utilização, o modelo precisa ser baixado (aprox. 155 MB).';
    const lib=await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2');
    if(lib.env){lib.env.allowRemoteModels=true;lib.env.allowLocalModels=false;lib.env.useBrowserCache=true;}
-   return await lib.pipeline('image-classification',DR_FOOD_MODEL,{dtype:'q4',progress_callback:(v)=>{if(status&&v&&v.status==='progress'&&Number.isFinite(v.progress))status.textContent='Baixando modelo de reconhecimento: '+Math.round(v.progress)+'%';}});
+   return await lib.pipeline('zero-shot-image-classification',DR_FOOD_MODEL,{dtype:'q8',progress_callback:(v)=>{if(status&&v&&v.status==='progress'&&Number.isFinite(v.progress))status.textContent='Baixando modelo local: '+Math.round(v.progress)+'%';}});
   })().then(m=>(DR_FOOD_PIPE=m,m)).catch(err=>{DR_FOOD_LOADING=null;throw err;});
  }
  return DR_FOOD_LOADING;
 }
-function drFoodName(label){return DR_FOOD_PT[label]||String(label||'').replace(/[_-]+/g,' ')}
-function drFoodRender(){const el=$('#drFoodResult');if(!el)return;if(!DR_FOOD_RESULTS.length){el.innerHTML='';return;}el.innerHTML=`<div class="social-card"><b>O que o modelo encontrou?</b><p class=m>O reconhecimento sugere o prato principal (uma categoria por imagem), não separa todos os ingredientes nem mede o peso.</p>${DR_FOOD_RESULTS.map((r,i)=>`<div class=r><span>${e(drFoodName(r.label))}<br><small class=m>Correspondência do modelo: ${Math.round((r.score||0)*100)}%</small></span><button onclick="drFoodChoose(${i})">Selecionar</button></div>`).join('')}</div>`;}
-function drFoodChoose(i){const r=DR_FOOD_RESULTS[i];if(!r)return;const key=String(r.label||'').toLowerCase(),pt=drFoodName(key),matchName=DR_FOOD_MATCH[key];let food=matchName?allF().find(x=>nz(x.n)===nz(matchName)):null;if(!food)food=allF().find(x=>nz(x.n)===nz(pt));
- if(food){const g=100,k=+food.k||0,p=+food.p||0,c=+food.c||0,gd=+food.g||0;pend=[{n:food.n,g,k,p,c,gd,b:{k:k/100,p:p/100,c:c/100,gd:gd/100}}];const st=$('#st');if(st)st.textContent='Prato reconhecido. A tabela nutricional é uma referência por 100 g: ajuste a quantidade real antes de salvar.';const pd=$('#pd');if(pd)pd.innerHTML=pdH2();}
- else {const st=$('#st');if(st)st.textContent='Reconheci “'+pt+'”, mas não encontrei esse prato na tabela nutricional. Pesquise abaixo ou cadastre os valores; o modelo não estima gramas nem calorias.';FQ=pt;const fq=$('#fq');if(fq){fq.value=FQ;const fr=$('#fr');if(fr)fr.innerHTML=fres();}}
- DR_FOOD_RESULTS=[];drFoodRender();}
-async function foto(f){if(!f)return;const s=$('#st');if(!s)return;try{if(!/^image\//.test(f.type||''))throw new Error('Selecione um arquivo de imagem.');if(f.size>15*1024*1024)throw new Error('A foto precisa ter até 15 MB.');s.textContent='Preparando a foto no seu aparelho…';const bl=await shrink(f);if(DR_FOOD_PHOTO_URL)URL.revokeObjectURL(DR_FOOD_PHOTO_URL);DR_FOOD_PHOTO_URL=URL.createObjectURL(bl);PIC=DR_FOOD_PHOTO_URL;const model=await drFoodModel(s);if(!model||!model.processor){}s.textContent='Convertendo a foto para o formato do reconhecedor…';const lib=await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2');if(!lib.RawImage||typeof lib.RawImage.fromBlob!=='function')throw new Error('O conversor de imagens não carregou. Atualize a página e tente novamente.');const image=await lib.RawImage.fromBlob(bl);if(!image||!image.data||!image.width||!image.height)throw new Error('Não foi possível interpretar esta foto. Tente outra imagem.');s.textContent='Analisando a imagem localmente…';const out=await model(image,{top_k:3});DR_FOOD_RESULTS=Array.isArray(out)?out:[];pend=[];const pd=$('#pd');if(pd)pd.innerHTML='';drFoodRender();s.textContent=DR_FOOD_RESULTS.length?'Confira as sugestões abaixo. A foto foi analisada no próprio aparelho.':'Não consegui reconhecer um prato nesta imagem. Tente outra foto ou registre manualmente.';}catch(err){console.error('Dark Routine food classifier:',err);s.textContent=err&&err.message?err.message:'Não foi possível carregar o modelo. Verifique a internet na primeira utilização e tente novamente.';}}
-
+async function drFoodCropBlobs(blob){
+ const bmp=await createImageBitmap(blob),w=bmp.width,h=bmp.height;
+ const specs=[['foto inteira',0,0,1,1],['lado esquerdo',0,0,.68,1],['lado direito',.32,0,.68,1],['parte superior',0,0,1,.68],['parte inferior',0,.32,1,.68]];
+ const out=[];
+ try{
+  for(const [name,x,y,cw,ch] of specs){const sx=Math.round(w*x),sy=Math.round(h*y),sw=Math.max(1,Math.round(w*cw)),sh=Math.max(1,Math.round(h*ch)),scale=Math.min(1,640/Math.max(sw,sh)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(sw*scale));c.height=Math.max(1,Math.round(sh*scale));const ctx=c.getContext('2d');if(!ctx)continue;ctx.drawImage(bmp,sx,sy,sw,sh,0,0,c.width,c.height);const b=await new Promise((resolve,reject)=>c.toBlob(v=>v?resolve(v):reject(new Error('Falha ao preparar um recorte da foto.')),'image/jpeg',.88));out.push({name,blob:b});}
+ }finally{if(bmp.close)bmp.close();}
+ return out;
+}
+function drFoodRender(){
+ const el=$('#drFoodResult');if(!el)return;
+ if(!DR_FOOD_RESULTS.length){el.innerHTML='';return;}
+ el.innerHTML=`<div class="social-card"><b>Possíveis alimentos na foto</b><p class=m>O modelo compara a foto inteira e quatro recortes. A pontuação é uma semelhança relativa entre opções, não uma probabilidade de acerto. Alguns itens podem estar errados ou faltar; confirme antes de adicionar.</p>${DR_FOOD_RESULTS.map((r,i)=>{const meta=DR_FOOD_META[r.label]||{},food=meta.db?allF().find(x=>nz(x.n)===nz(meta.db)):null,added=food&&pend.some(x=>nz(x.n)===nz(food.n));return `<div class=r><span style="min-width:0;flex:1">${e(meta.n||r.label)}<br><small class=m>Similaridade: ${Math.round((r.score||0)*100)}% · apareceu em ${r.hits||1}/5 recortes</small></span><button ${added?'disabled':''} onclick="drFoodChoose(${i})">${added?'Adicionado':food?'Adicionar':'Buscar alimento'}</button></div>`}).join('')}</div>`;
+}
+function drFoodChoose(i){
+ const r=DR_FOOD_RESULTS[i];if(!r)return;const meta=DR_FOOD_META[r.label]||{},st=$('#st');
+ let food=meta.db?allF().find(x=>nz(x.n)===nz(meta.db)):null;
+ if(food){if(pend.some(x=>nz(x.n)===nz(food.n))){if(st)st.textContent='Esse alimento já está no prato. Ajuste a quantidade na lista abaixo.';return;}
+  const g=meta.g||food.q||100,k=+food.k||0,p=+food.p||0,c=+food.c||0,gd=+food.g||0;
+  pend.push({n:food.n,g,k:k*g/100,p:p*g/100,c:c*g/100,gd:gd*g/100,b:{k:k/100,p:p/100,c:c/100,gd:gd/100}});
+  const pd=$('#pd');if(pd)pd.innerHTML=pdH2();if(st)st.textContent='Alimento adicionado. Confira a porção em gramas e adicione os outros itens antes de salvar.';
+ }else{FQ=meta.n||r.label;const fq=$('#fq');if(fq){fq.value=FQ;const fr=$('#fr');if(fr)fr.innerHTML=fres();if(st)st.textContent='Não há valor nutricional cadastrado para esse item. Escolha um equivalente na busca e confira os dados.';}else if(st)st.textContent='Não encontrei esse alimento na tabela. Use a busca manual abaixo para registrar.';}
+ drFoodRender();
+}
+async function foto(f){
+ if(!f)return;const s=$('#st');if(!s)return;
+ try{
+  if(!/^image\//.test(f.type||''))throw new Error('Selecione um arquivo de imagem.');
+  if(f.size>15*1024*1024)throw new Error('A foto precisa ter até 15 MB.');
+  s.textContent='Preparando a foto no seu aparelho…';const bl=await shrink(f);
+  if(DR_FOOD_PHOTO_URL)URL.revokeObjectURL(DR_FOOD_PHOTO_URL);DR_FOOD_PHOTO_URL=URL.createObjectURL(bl);PIC=DR_FOOD_PHOTO_URL;
+  pend=[];const pd=$('#pd');if(pd)pd.innerHTML='';DR_FOOD_RESULTS=[];drFoodRender();
+  const model=await drFoodModel(s),lib=await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2');
+  if(!lib.RawImage||typeof lib.RawImage.fromBlob!=='function')throw new Error('O conversor de imagens não carregou. Atualize a página e tente novamente.');
+  const crops=await drFoodCropBlobs(bl),aggregate=new Map();
+  for(let ci=0;ci<crops.length;ci++){
+   s.textContent='Analisando '+crops[ci].name+' ('+(ci+1)+'/'+crops.length+') no próprio aparelho…';
+   const image=await lib.RawImage.fromBlob(crops[ci].blob);if(!image||!image.data||!image.width||!image.height)continue;
+   const out=await model(image,DR_FOOD_LABELS);
+   for(const item of (Array.isArray(out)?out.slice(0,6):[])){const key=item.label,old=aggregate.get(key)||{label:key,score:0,hits:0};old.score=Math.max(old.score,+item.score||0);old.hits++;aggregate.set(key,old);}
+  }
+  DR_FOOD_RESULTS=[...aggregate.values()].filter(x=>x.score>=.035).sort((a,b)=>(b.score+(b.hits-1)*.012)-(a.score+(a.hits-1)*.012)).slice(0,8);
+  drFoodRender();s.textContent=DR_FOOD_RESULTS.length?'Análise local concluída. Selecione todos os alimentos que realmente aparecem e ajuste as porções.':'Não consegui sugerir alimentos com segurança. Use a busca manual abaixo.';
+ }catch(err){console.error('Dark Routine food classifier:',err);s.textContent=err&&err.message?err.message:'Não foi possível analisar a foto. Verifique a internet no primeiro download e tente novamente.';}
+}
 function savePend(){const m=$('#pm')?$('#pm').value:MT;pend.forEach(x=>S.food.push({d:td,n:x.n+' '+Math.round(x.g)+' g',k:x.k,p:x.p,c:x.c,g:x.gd,m}));pend=[];PIC='';save();render(1);toast('Refeição salva')}
 function addM(){const f=DB[$('#fs').value],g=+$('#fg').value||0;if(!g)return;S.food.push({d:td,n:f[0]+' '+g+' g',k:f[1]*g/100,p:f[2]*g/100,c:f[3]*g/100,g:f[4]*g/100});save();render(1)}
 function delF(i){S.food.splice(i,1);save();render(1)}
