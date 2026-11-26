@@ -1,11 +1,20 @@
-DARK ROUTINE SOCIAL V3
+DARK ROUTINE SOCIAL PLUS
 
-1) Faça backup do index.html antigo.
-2) Supabase SQL Editor: execute dark-routine-social-fix.sql (se ainda não executou).
-3) Execute dark-routine-social-v3.sql para criar o campo avatar_url e bucket/policies para fotos.
-4) GitHub: substitua index.html e sw.js pelos arquivos deste pacote, mantendo os nomes.
-5) Commit e aguarde GitHub Pages.
+Inclui:
+- Feed com texto, foto e métricas de atividade opcionais.
+- Botão para importar a atividade mais recente registrada localmente (confirme antes de publicar).
+- Conversas diretas entre amigos.
+- O feed não publica GPS detalhado.
 
-A V3 corrige layout do cartão de compartilhamento de corrida (mapa separado da distância/estatísticas), melhora o preview de story, adiciona upload de foto de perfil no Storage e apresenta fotos nos cards sociais.
+INSTALAÇÃO:
+1. Supabase SQL Editor > New query. Execute dark-routine-social-plus.sql (uma vez).
+2. GitHub: substitua index.html pelo index.html deste pacote.
+3. Substitua sw.js pelo sw.js deste pacote.
+4. Commit/push e aguarde o site publicar.
+5. Reabra o site. Se persistir cache, limpe dados do site/PWA e abra novamente.
 
-Nota: testada sintaxe JS, mas não fluxo real no Supabase. Upload depende de executar o SQL V3. Feed, ranking e desafios seguem o modelo MVP e precisam de testes com contas distintas antes de lançamento público.
+OBSERVAÇÃO:
+- Este pacote é uma expansão do HTML social anterior, não uma auditoria completa de segurança.
+- Mensagens ficam acessíveis apenas aos participantes via RLS; ainda não há notificações push, status online, nem atualização realtime.
+- Foto de publicação fica em bucket público, então quem possuir o URL poderá ver a imagem. Não publique fotos sensíveis.
+- O importador de atividade lê dados locais do aparelho e exige que o usuário confira antes de publicar.
