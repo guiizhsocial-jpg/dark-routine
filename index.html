@@ -176,6 +176,16 @@ nav button{flex:1;min-width:0;padding:8px 3px;font-size:10px}
 .drs-auth-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
 @media(max-width:420px){.drs-people{grid-template-columns:repeat(2,minmax(0,1fr))}.drs-nav{grid-template-columns:repeat(4,minmax(0,1fr))}.drs-profile-head .social-avatar{width:62px;height:62px}.drs-profile-head button{padding:6px}}
 
+/* HUD and social layout repair */
+#nv{bottom:calc(8px + env(safe-area-inset-bottom,0px));padding:5px;width:min(calc(100% - 18px),560px);gap:2px;overflow-x:auto;scrollbar-width:none;background:rgba(15,13,24,.96);box-shadow:0 8px 32px #0007}
+#nv::-webkit-scrollbar{display:none}#nv button{flex:1 0 55px;min-width:55px;padding:7px 2px;font-size:10px;gap:3px}
+#v{padding-bottom:calc(105px + env(safe-area-inset-bottom,0px))}body{padding-bottom:0;overflow-x:clip}
+.drs-nav{position:relative;display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%;margin-bottom:12px}.drs-nav button{flex:0 0 65px}
+.drs-modal-card textarea{background:rgba(255,255,255,.035);border:1px solid var(--bd);border-radius:18px;padding:15px;min-height:130px;resize:vertical;font:inherit;line-height:1.5}
+.drs-composer-preview{border:1px dashed var(--bd);border-radius:16px;padding:10px;margin:10px 0;color:var(--mut);font-size:12px}.drs-modal-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.drs-modal-actions button{flex:1}
+.drs-story-rail{display:flex;gap:10px;overflow-x:auto;padding:5px 2px 13px;scrollbar-width:none}.drs-story{flex:0 0 72px;text-align:center;background:none;border:0;padding:2px}.drs-story-ring{width:64px;height:64px;border-radius:50%;padding:3px;background:var(--g);margin:auto}.drs-story-ring>div{width:100%;height:100%;border-radius:50%;border:3px solid #171320;overflow:hidden;display:grid;place-items:center;background:#21172e;font-size:28px}.drs-story-ring img{width:100%;height:100%;object-fit:cover}.drs-story small{display:block;font-size:10px;margin-top:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.drs-story-add .drs-story-ring{background:var(--bd);position:relative}.drs-story-add .drs-story-ring:after{content:'+';position:absolute;bottom:-1px;right:-1px;background:var(--g);border-radius:50%;width:23px;height:23px;display:grid;place-items:center;border:2px solid #171320}.drs-story-view{position:fixed;inset:0;z-index:90;background:#05040a;display:grid;place-items:center;padding:20px}.drs-story-view img{max-width:100%;max-height:80vh;border-radius:18px}.drs-story-view .story-close{position:absolute;right:20px;top:calc(20px + env(safe-area-inset-top,0px))}
+@media(max-width:390px){#nv button{flex-basis:52px;min-width:52px}.drs-nav button{flex-basis:60px}.drs-modal-card{padding:14px}}
+
 </style></head><body>
 <div class="glow g1"></div><div class="glow g2"></div>
 <main id="v"></main><nav id="nv"></nav><div id="ob"></div>
@@ -1025,11 +1035,16 @@ async function socialFollowStatus(target){
  return data||null;
 }
 function socialOpenComposer(){
- $('#socialComposerModal')?.remove();
- const m=document.createElement('div');m.className='drs-modal';m.id='socialComposerModal';
- m.innerHTML=`<div class=drs-modal-card><button class=drs-close onclick="$('#socialComposerModal').remove()">✕</button><span class=drs-eyebrow>NOVA PUBLICAÇÃO</span><h2>Compartilhe seu momento</h2><textarea id=socPost maxlength=1000 rows=4 placeholder="O que você quer compartilhar?"></textarea><div class=row><input id=socKm type=number step=.1 min=0 placeholder="Distância (km)"><input id=socMin type=number min=0 placeholder="Tempo (min)"></div><label>Foto</label><input id=socPostPhoto type=file accept="image/*"><label>Quem pode ver?</label><select id=socPostVisibility><option value=public>Público</option><option value=followers>Seguidores aprovados</option></select><p class=m id=socImportNote></p><button onclick=socialImportLatest()>Importar atividade recente</button><button class=pri onclick=socialPost()>Publicar</button></div>`;
- document.body.appendChild(m);
+ $('#socialComposerModal')?.remove();const m=document.createElement('div');m.className='drs-modal';m.id='socialComposerModal';
+ m.innerHTML=`<div class=drs-modal-card><button class=drs-close onclick="$('#socialComposerModal').remove()">✕</button><span class=drs-eyebrow>NOVA PUBLICAÇÃO</span><h2>Compartilhe seu momento</h2><textarea id=socPost maxlength=1000 rows=5 placeholder="No que você está pensando? Compartilhe uma conquista, foto ou ideia..."></textarea><div class=drs-composer-preview>📷 Adicionar foto <input id=socPostPhoto type=file accept="image/*"><small id=socPhotoName></small></div><div class=row><input id=socKm type=number step=.1 min=0 placeholder="Distância (km)"><input id=socMin type=number min=0 placeholder="Tempo (min)"></div><label>Quem pode ver?</label><select id=socPostVisibility><option value=public>Público</option><option value=followers>Seguidores aprovados</option></select><p class=m id=socImportNote></p><div class=drs-modal-actions><button onclick=socialImportLatest()>Importar atividade</button><button class=pri onclick=socialPost()>Publicar</button></div></div>`;document.body.appendChild(m);
 }
+function socialOpenStory(){const m=document.createElement('div');m.className='drs-modal';m.id='socialStoryModal';m.innerHTML=`<div class=drs-modal-card><button class=drs-close onclick="$('#socialStoryModal').remove()">✕</button><span class=drs-eyebrow>NOVO STORY · 24 HORAS</span><h2>Compartilhe agora</h2><textarea id=socStoryText rows=3 maxlength=280 placeholder="Uma pequena janela do seu dia..."></textarea><label>Foto</label><input id=socStoryPhoto type=file accept="image/*"><button class=pri onclick=socialStoryPost()>Publicar story</button></div>`;document.body.appendChild(m);}
+async function socialStoryPost(){
+ const u=await currentUser(),content=($('#socStoryText')?.value||'').trim(),file=$('#socStoryPhoto')?.files?.[0];if(!content&&!file)return toast('Escreva algo ou selecione uma imagem.');let media_url=null;
+ if(file){if(file.size>6*1024*1024)return toast('Imagem até 6 MB.');const ext=(file.name.split('.').pop()||'jpg').replace(/[^a-z0-9]/gi,'')||'jpg',path=u.id+'/story-'+Date.now()+'.'+ext;const {error}=await sb.storage.from('social-post-images').upload(path,file,{upsert:false,contentType:file.type});if(error)return toast('Upload falhou: '+error.message);media_url=sb.storage.from('social-post-images').getPublicUrl(path).data.publicUrl;}
+ const {error}=await sb.from('social_stories').insert({user_id:u.id,content,media_url});if(error)return toast(error.message);$('#socialStoryModal')?.remove();toast('Story publicado!');render(1);
+}
+async function socialStoryView(id){const {data,error}=await sb.from('social_stories').select('content,media_url').eq('id',id).single();if(error||!data)return toast('Story indisponível.');const m=document.createElement('div');m.className='drs-story-view';m.innerHTML=`<button class=story-close onclick="this.parentElement.remove()">✕</button><div>${data.media_url?`<img src="${e(data.media_url)}">`:''}<div style="padding:18px;font-size:18px;white-space:pre-wrap">${e(data.content||'')}</div></div>`;document.body.appendChild(m);m.onclick=ev=>{if(ev.target===m)m.remove()};}
 async function socialPost(){
  const u=await currentUser(),content=($('#socPost')?.value||'').trim(),km=+($('#socKm')?.value)||null,mins=+($('#socMin')?.value)||null,file=$('#socPostPhoto')?.files?.[0];
  if(!content&&!km&&!file)return toast('Escreva algo, inclua uma distância ou escolha uma foto.');
@@ -1060,6 +1075,7 @@ async function socialFeedView(){
  ]);
  const followed=new Set([u.id,...(follows||[]).map(x=>x.following_id),...(friendships||[]).map(x=>x.requester===u.id?x.addressee:x.requester)]);
  const {data,error}=await sb.from('social_posts').select('id,user_id,content,activity_km,activity_minutes,media_url,visibility,created_at').order('created_at',{ascending:false}).limit(100);
+ const {data:storyData}=await sb.from('social_stories').select('id,user_id,content,media_url,created_at').gte('created_at',new Date(Date.now()-86400000).toISOString()).order('created_at',{ascending:false});
  if(error)return `<div class=c><p class=m>${e(error.message)}</p><button onclick="render(1)">Tentar novamente</button></div>`;
  let posts=data||[];
  posts=drSocialFeedMode==='following'?posts.filter(x=>followed.has(x.user_id)):posts.filter(x=>!followed.has(x.user_id)&&x.user_id!==u.id&&(!x.visibility||x.visibility==='public'));
@@ -1074,6 +1090,7 @@ async function socialFeedView(){
  (reactions||[]).forEach(x=>likes[x.post_id]=(likes[x.post_id]||0)+1);
  (comments||[]).forEach(x=>commentCounts[x.post_id]=(commentCounts[x.post_id]||0)+1);
  return `<section class=drs-feed>
+  <div class=drs-story-rail><button class=drs-story drs-story-add onclick=socialOpenStory()><div class=drs-story-ring><div>${e(socialAvatar||'🏃')}</div></div><small>Seu story</small></button>${(storyData||[]).filter(x=>x.user_id!==u.id).reduce((a,x)=>{if(!a.find(y=>y.user_id===x.user_id))a.push(x);return a},[]).map(st=>{const pr=pm[st.user_id]||{};return `<button class=drs-story onclick="socialStoryView('${st.id}')"><div class=drs-story-ring><div>${socialAvatarHTML(pr.avatar,pr.avatar_url)}</div></div><small>${e(pr.username||pr.display_name||'Story')}</small></button>`}).join('')}</div>
   <div class=drs-feed-hero><div><span class=drs-eyebrow>MOVE WITH YOUR PEOPLE</span><h1>Inspire. <span class=grad>Move.</span> Repeat.</h1><p class=m>Seu progresso pode inspirar alguém.</p></div><button class=drs-add onclick=socialOpenComposer()>＋</button></div>
   <div class=drs-feed-tabs><button class="${drSocialFeedMode==='forYou'?'active':''}" onclick="drSocialFeedMode='forYou';render(1)">Para você</button><button class="${drSocialFeedMode==='following'?'active':''}" onclick="drSocialFeedMode='following';render(1)">Seguindo</button><button onclick="socialPane='discover';render(1)">Explorar ✦</button></div>
   <button class=drs-composer onclick=socialOpenComposer()><span class=drs-mini-avatar>${e(socialAvatar||'🏃')}</span><span>Compartilhe uma conquista, foto ou ideia…</span><b>＋</b></button>
@@ -1209,5 +1226,5 @@ function go(t){tab=t;render();scrollTo(0,0)}
 function fx(){G.lm=0;liveMap();requestAnimationFrame(()=>requestAnimationFrame(()=>{document.querySelectorAll('[data-o]').forEach(c=>c.style.strokeDashoffset=c.dataset.o);document.querySelectorAll('[data-w]').forEach(i=>i.style.width=i.dataset.w+'%');document.querySelectorAll('[data-h]').forEach(i=>i.style.height=i.dataset.h+'%');
 document.querySelectorAll('[data-n]').forEach(el=>{const to=+el.dataset.n,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/900);el.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}))}
 render();
-if('serviceWorker' in navigator)addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js?v=10',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});});
+if('serviceWorker' in navigator)addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js?v=11',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});});
 </script></body></html>
