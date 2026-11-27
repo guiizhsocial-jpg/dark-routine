@@ -117,9 +117,15 @@ nav button{flex:1;min-width:0;padding:8px 3px;font-size:10px}
 .drs-header{display:flex;align-items:center;justify-content:space-between;padding:8px 2px 14px}
 .drs-header h2{font-size:28px;margin:0}.drs-header>button{width:44px;height:44px;border:0;border-radius:16px;background:var(--g);color:#fff;font-size:21px}
 .drs-eyebrow{font-size:9px;letter-spacing:.2em;font-weight:800;color:#c084fc}
-.drs-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:7px;margin-bottom:16px;border:1px solid var(--bd);border-radius:20px;background:rgba(20,18,32,.85);backdrop-filter:blur(16px)}
-.drs-nav button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 2px;border:0;background:none;color:var(--mut);font-size:20px}
-.drs-nav button span{font-size:10px}.drs-nav button.active{color:#fff;background:linear-gradient(135deg,rgba(139,92,246,.32),rgba(236,72,153,.2));border-radius:13px}
+.drs-nav{display:flex;flex-wrap:nowrap;gap:5px;padding:7px;margin:0 0 16px;border:1px solid var(--bd);border-radius:20px;background:rgba(20,18,32,.92);backdrop-filter:blur(16px);overflow-x:auto;overflow-y:hidden;scrollbar-width:none;max-width:100%;-webkit-overflow-scrolling:touch}
+.drs-nav::-webkit-scrollbar{display:none}
+.drs-nav button{display:flex;flex:0 0 76px;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:9px 3px;border:0;background:none;color:var(--mut);font-size:20px;border-radius:13px}
+.drs-nav button span{font-size:10px;white-space:nowrap}.drs-nav button.active{color:#fff;background:linear-gradient(135deg,rgba(139,92,246,.32),rgba(236,72,153,.2));border-radius:13px}
+.drs-app{width:100%;max-width:560px;min-width:0;margin:0 auto;padding:0 0 12px;box-sizing:border-box}
+.drs-app *{box-sizing:border-box}
+.drs-feed,.drs-discover,.drs-friends,.drs-profile{min-width:0;width:100%}
+.social-bottomspace{height:calc(112px + env(safe-area-inset-bottom,0px))}
+@media(max-width:380px){.drs-nav button{flex-basis:70px}}
 .drs-feed-hero,.drs-discover-hero{padding:20px;border:1px solid var(--bd);border-radius:23px;background:radial-gradient(circle at 90% 5%,rgba(236,72,153,.25),transparent 38%),linear-gradient(135deg,rgba(139,92,246,.2),rgba(255,255,255,.025));margin-bottom:13px}
 .drs-feed-hero{display:flex;align-items:center;justify-content:space-between}.drs-feed-hero h1,.drs-discover-hero h1{font-size:27px;line-height:1.15;margin:7px 0}
 .drs-add{width:48px;height:48px;border:0;border-radius:16px;background:var(--g);color:white;font-size:28px}
@@ -1149,7 +1155,8 @@ async function socialSearch(){
  el.innerHTML=list.map(x=>`<div class=drs-person-row>${socialAvatarHTML(x.avatar,x.avatar_url)}<div><b>${e(x.display_name||x.username)}</b><small>@${e(x.username)}</small></div><button class=pri onclick="socialFollowUser('${x.id}')">Seguir</button><button onclick="socialRequest('${x.id}')">Amigo</button></div>`).join('')||'<p class=m>Nenhum perfil encontrado.</p>';
 }
 async function socialMain(){
- if(!sb)return `<div class=c><h2>Social</h2><p class=m>Supabase não carregou. Verifique a conexão.</p></div>`;
+ if(!sb)return `<section class=drs-empty><h2>Social indisponível</h2><p class=m>O Supabase não carregou. Verifique a conexão e tente novamente.</p></section>`;
+ try{
  if(drSocialRecovery)return socialRecoveryView();
  const u=await currentUser();if(!u)return socialAuthView();
  await ensureProfile();
@@ -1172,6 +1179,11 @@ async function socialMain(){
  <button class="${socialPane==='ranking'?'active':''}" onclick="socialPane='ranking';render()">♛<span>Ranking</span></button>
  <button class="${socialPane==='messages'?'active':''}" onclick="socialPane='messages';render()">✉<span>Mensagens</span></button>
  </nav>${content}</section><div class=social-bottomspace></div>`;
+ }catch(err){
+  console.error('Dark Routine Social:',err);
+  const msg=String(err?.message||err||'Erro inesperado');
+  return `<section class=drs-empty><div>⚠</div><h2>Não foi possível carregar a comunidade</h2><p class=m>${e(msg)}</p><button class=pri onclick="render(1)">Tentar novamente</button><p class=m>Se aparecer “permission denied”, execute a correção de permissões no SQL Editor do Supabase.</p></section><div class=social-bottomspace></div>`;
+ }
 }
 
 
@@ -1197,5 +1209,5 @@ function go(t){tab=t;render();scrollTo(0,0)}
 function fx(){G.lm=0;liveMap();requestAnimationFrame(()=>requestAnimationFrame(()=>{document.querySelectorAll('[data-o]').forEach(c=>c.style.strokeDashoffset=c.dataset.o);document.querySelectorAll('[data-w]').forEach(i=>i.style.width=i.dataset.w+'%');document.querySelectorAll('[data-h]').forEach(i=>i.style.height=i.dataset.h+'%');
 document.querySelectorAll('[data-n]').forEach(el=>{const to=+el.dataset.n,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/900);el.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}))}
 render();
-if('serviceWorker' in navigator)addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js?v=9',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});});
+if('serviceWorker' in navigator)addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js?v=10',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});});
 </script></body></html>
